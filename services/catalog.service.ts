@@ -136,6 +136,23 @@ class CatalogService {
   }
 
   /**
+   * Get all items owned by a specific user
+   */
+  async getMyItems(ownerId: string): Promise<ItemResponse[]> {
+    try {
+      const response = await catalogApiClient.get<ItemResponse[]>(
+        '/items/my-items',
+        {
+          params: { owner_id: ownerId },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
    * Handle API errors
    */
   private handleError(error: unknown): Error {
