@@ -12,6 +12,7 @@ interface AuthContextType extends AuthState {
   register: (userData: UserCreate) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  continueAsGuest: () => void;
 }
 
 const initialAuthState: AuthState = {
@@ -133,6 +134,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const continueAsGuest = useCallback(() => {
+    // Create a guest user for development purposes
+    const guestUser = {
+      id: 'guest-user-dev',
+      email: 'guest@swappo.dev',
+      first_name: 'Guest',
+      last_name: 'User',
+      phone_number: null,
+      is_verified: true,
+      created_at: new Date().toISOString(),
+    };
+
+    setState({
+      user: guestUser,
+      accessToken: null,
+      refreshToken: null,
+      isLoading: false,
+      isAuthenticated: true,
+    });
+  }, []);
+
   const value: AuthContextType = useMemo(
     () => ({
       ...state,
@@ -140,8 +162,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       register,
       logout,
       refreshUser,
+      continueAsGuest,
     }),
-    [state, login, register, logout, refreshUser]
+    [state, login, register, logout, refreshUser, continueAsGuest]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

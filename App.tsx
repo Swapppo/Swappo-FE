@@ -7,6 +7,7 @@ import { useAuth } from './hooks/useAuth';
 import { LoginScreen } from './screens/LoginScreen';
 import { RegisterScreen } from './screens/RegisterScreen';
 import { HomeScreen } from './screens/HomeScreen';
+import { ExploreScreen } from './screens/ExploreScreen';
 import { ActivityIndicator, View } from 'react-native';
 
 import './global.css';
@@ -28,6 +29,11 @@ function AppNavigator() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Explore"
+        component={ExploreScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -6,8 +6,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export const HomeScreen = () => {
+type RootStackParamList = {
+  Home: undefined;
+  Explore: undefined;
+};
+
+type HomeScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
+};
+
+export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { user, logout, isLoading } = useAuth();
 
   const handleLogout = async () => {
@@ -85,6 +95,16 @@ export const HomeScreen = () => {
           </View>
         </View>
       </View>
+
+      {/* Explore Button */}
+      <TouchableOpacity
+        className="bg-blue-600 rounded-lg py-4 mb-4"
+        onPress={() => navigation.navigate('Explore')}
+      >
+        <Text className="text-white text-center font-semibold text-base">
+          🔍 Explore Items
+        </Text>
+      </TouchableOpacity>
 
       {/* Logout Button */}
       <TouchableOpacity

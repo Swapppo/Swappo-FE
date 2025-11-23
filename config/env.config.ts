@@ -18,7 +18,7 @@ import { Platform } from 'react-native';
  * - All platforms: Your production API URL
  */
 
-const getApiUrl = (): string => {
+const getApiUrl = (port: number = 8000): string => {
   // Set to true when deploying to production
   const IS_PRODUCTION = false;
 
@@ -29,27 +29,30 @@ const getApiUrl = (): string => {
 
   // Development environment
   if (Platform.OS === 'web') {
-    return 'http://127.0.0.1:8000';
+    return `http://127.0.0.1:${port}`;
   }
 
   if (Platform.OS === 'android') {
     // Android emulator uses 10.0.2.2 to access host machine's localhost
     // If you're using a physical Android device, replace this with your computer's IP
-    // Example: return 'http://192.168.1.100:8000';
-    return 'http://10.0.2.2:8000';
+    // Example: return `http://192.168.1.100:${port}`;
+    return `http://10.0.2.2:${port}`;
   }
 
   if (Platform.OS === 'ios') {
     // iOS simulator can use localhost
-    return 'http://localhost:8000';
+    return `http://localhost:${port}`;
   }
 
   // Default fallback
-  return 'http://127.0.0.1:8000';
+  return `http://127.0.0.1:${port}`;
 };
 
 export const ENV = {
-  API_BASE_URL: getApiUrl(),
+  // Auth service (port 8000)
+  API_BASE_URL: getApiUrl(8000),
+  // Catalog service (port 8001) - assuming different port
+  CATALOG_API_BASE_URL: getApiUrl(8001),
   IS_DEV: __DEV__,
 };
 

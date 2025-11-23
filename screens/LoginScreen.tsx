@@ -17,7 +17,7 @@ import { useAuth } from '../hooks/useAuth';
 import { ApiError } from '../types/auth.types';
 
 export const LoginScreen = ({ navigation }: { navigation: any }) => {
-  const { login, isLoading } = useAuth();
+  const { login, continueAsGuest, isLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '', general: '' });
@@ -141,6 +141,17 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
             <Text className="text-blue-600 font-semibold">Sign Up</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Guest Mode - Development Only */}
+        <TouchableOpacity
+          className="mt-4 py-3 border border-gray-300 rounded-lg"
+          onPress={continueAsGuest}
+          disabled={isLoading}
+        >
+          <Text className="text-gray-700 text-center font-medium text-base">
+            Continue as Guest (Dev)
+          </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
