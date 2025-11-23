@@ -113,16 +113,13 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
         owner_id: user.id,
       });
 
-      Alert.alert('Success', 'Item uploaded successfully!', [
-        {
-          text: 'OK',
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-
       // Reset form
       setFormData({ name: '', description: '', category: '' });
       setSelectedImages([]);
+      
+      // Show success message and navigate back
+      Alert.alert('Success', 'Item uploaded successfully!');
+      navigation.goBack();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to upload item';
       Alert.alert('Error', message);
