@@ -100,10 +100,6 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
     [user?.id, loadItems]
   );
 
-  const handleUpload = useCallback(() => {
-    navigation.navigate('UploadItem');
-  }, [navigation]);
-
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
@@ -119,18 +115,6 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
       <ScreenHeader title="Explore" showBack={true} />
       <View className="bg-white px-6 py-2 border-b border-gray-200">
         <Text className="text-gray-600">Discover items to trade</Text>
-      </View>
-
-      {/* Upload Button */}
-      <View className="bg-white px-6 py-3 border-b border-gray-200">
-        <TouchableOpacity
-          onPress={handleUpload}
-          className="bg-blue-600 py-3 rounded-lg active:bg-blue-700"
-        >
-          <Text className="text-white text-center font-semibold text-base">
-            + Upload New Item
-          </Text>
-        </TouchableOpacity>
       </View>
 
       {/* Error Message */}
@@ -154,72 +138,79 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
           </View>
         ) : (
           <View className="p-4">
-            {items.map((item) => (
-              <View
-                key={item.id}
-                className="bg-white rounded-xl shadow-sm mb-4 overflow-hidden"
-              >
-                {/* Item Image */}
-                {item.image_urls.length > 0 && (
-                  <Image
-                    source={{ uri: item.image_urls[0] }}
-                    className="w-full h-64"
-                    resizeMode="cover"
-                  />
-                )}
-
-                {/* Item Details */}
-                <View className="p-4">
-                  <Text className="text-xl font-bold text-gray-900">
-                    {item.name}
-                  </Text>
-                  
-                  <Text className="text-sm text-gray-500 mt-1">
-                    {item.category}
-                  </Text>
-                  
-                  <Text className="text-gray-700 mt-2" numberOfLines={3}>
-                    {item.description}
-                  </Text>
-
-                  <View className="flex-row items-center mt-2">
-                    {(() => {
-                      const getStatusBgColor = (status: string) => {
-                        if (status === 'active') return 'bg-green-100';
-                        if (status === 'swapped') return 'bg-blue-100';
-                        return 'bg-gray-100';
-                      };
-                      
-                      const getStatusTextColor = (status: string) => {
-                        if (status === 'active') return 'text-green-800';
-                        if (status === 'swapped') return 'text-blue-800';
-                        return 'text-gray-800';
-                      };
-                      
-                      return (
-                        <View className={`px-2 py-1 rounded ${getStatusBgColor(item.status)}`}>
-                          <Text className={`text-xs font-medium ${getStatusTextColor(item.status)}`}>
-                            {item.status}
-                          </Text>
-                        </View>
+            {/* Create rows of 2 items each */}
+            {Array.from({ length: Math.ceil(items.length / 2) }).map((_, rowIndex) => (
+              <View key={rowIndex} className="flex-row mb-4" style={{ gap: 12 }}>
+                {items.slice(rowIndex * 2, rowIndex * 2 + 2).map((item) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    className="flex-1 bg-white rounded-xl shadow-sm overflow-hidden"
+                    onPress={() => {
+                      // Can add navigation to item detail screen later
+                      Alert.alert(
+                        item.name,
+                        `${item.description}\n\nCategory: ${item.category}\nStatus: ${item.status}${
+                          user?.id === item.owner_id ? '\n\nYou own this item' : ''
+                        }`,
+                        user?.id === item.owner_id
+                          ? [
+                              { text: 'Cancel', style: 'cancel' },
+                              {
+                                text: 'Delete',
+                                style: 'destructive',
+                                onPress: () => handleDelete(item.id, item.owner_id),
+                              },
+                            ]
+                          : [{ text: 'OK' }]
                       );
-                    })()}
-                  </View>
+                    }}
+                  >
+                    {/* Item Image */}
+                    {item.image_urls.length > 0 && (
+                      <Image
+                        source={{ uri: item.image_urls[0] }}
+                        className="w-full"
+                        style={{ aspectRatio: 1 }}
+                        resizeMode="cover"
+                      />
+                    )}
 
-                  {/* Action Buttons - Only show delete for own items */}
-                  {user?.id === item.owner_id && (
-                    <View className="mt-4">
-                      <TouchableOpacity
-                        onPress={() => handleDelete(item.id, item.owner_id)}
-                        className="bg-red-600 py-2 rounded-lg active:bg-red-700"
-                      >
-                        <Text className="text-white text-center font-semibold">
-                          Delete Item
-                        </Text>
-                      </TouchableOpacity>
+                    {/* Item Details */}
+                    <View className="p-3">
+                      <Text className="text-base font-bold text-gray-900" numberOfLines={1}>
+                        {item.name}
+                      </Text>
+                      
+                      <Text className="text-xs text-gray-500 mt-1" numberOfLines={1}>
+                        {item.category}
+                      </Text>
+                      
+                      <View className="mt-2">
+                        {(() => {
+                          const getStatusBgColor = (status: string) => {
+                            if (status === 'active') return 'bg-green-100';
+                            if (status === 'swapped') return 'bg-blue-100';
+                            return 'bg-gray-100';
+                          };
+                          
+                          const getStatusTextColor = (status: string) => {
+                            if (status === 'active') return 'text-green-800';
+                            if (status === 'swapped') return 'text-blue-800';
+                            return 'text-gray-800';
+                          };
+                          
+                          return (
+                            <View className={`px-2 py-1 rounded self-start ${getStatusBgColor(item.status)}`}>
+                              <Text className={`text-xs font-medium ${getStatusTextColor(item.status)}`}>
+                                {item.status}
+                              </Text>
+                            </View>
+                          );
+                        })()}
+                      </View>
                     </View>
-                  )}
-                </View>
+                  </TouchableOpacity>
+                ))}
               </View>
             ))}
           </View>
