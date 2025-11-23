@@ -20,6 +20,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../hooks/useAuth';
 import { catalogService } from '../services/catalog.service';
 import { ENV } from '../config/env.config';
+import { ScreenHeader } from '../components/ScreenHeader';
 
 export function UploadItemScreen({ navigation }: { navigation: any }) {
   const { user } = useAuth();
@@ -135,9 +136,9 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-white"
     >
+      <ScreenHeader title="Upload New Item" showBack={true} />
       <ScrollView className="flex-1">
         <View className="p-6">
-          <Text className="text-2xl font-bold text-gray-900 mb-6">Upload New Item</Text>
 
           {/* Name Input */}
           <View className="mb-4">

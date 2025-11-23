@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import { catalogService } from '../services/catalog.service';
 import { ItemResponse } from '../types/catalog.types';
+import { ScreenHeader } from '../components/ScreenHeader';
 
 export function ExploreScreen({ navigation }: { navigation: any }) {
   const { user } = useAuth();
@@ -115,9 +116,9 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header */}
-      <View className="bg-white px-6 pt-12 pb-4 border-b border-gray-200">
-        <Text className="text-3xl font-bold text-gray-900">Explore</Text>
-        <Text className="text-gray-600 mt-1">Discover items to trade</Text>
+      <ScreenHeader title="Explore" showBack={true} />
+      <View className="bg-white px-6 py-2 border-b border-gray-200">
+        <Text className="text-gray-600">Discover items to trade</Text>
       </View>
 
       {/* Upload Button */}

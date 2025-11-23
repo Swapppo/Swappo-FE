@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { ApiError } from '../types/auth.types';
+import { ScreenHeader } from '../components/ScreenHeader';
 
 export const RegisterScreen = ({ navigation }: { navigation: any }) => {
   const { register, isLoading } = useAuth();
@@ -126,11 +127,11 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-white"
     >
+      <ScreenHeader title="Create Account" showBack={true} />
       <ScrollView className="flex-1" contentContainerClassName="flex-grow">
         <View className="flex-1 justify-center px-6 py-8">
-          {/* Header */}
+          {/* Subtitle */}
           <View className="mb-8">
-            <Text className="text-3xl font-bold text-gray-900 mb-2">Create Account</Text>
             <Text className="text-gray-600">Sign up to get started</Text>
           </View>
 
