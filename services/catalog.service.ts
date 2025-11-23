@@ -16,6 +16,44 @@ import { API_CONFIG } from '../config/api.config';
 
 class CatalogService {
   /**
+   * Upload an image file
+   */
+  async uploadImage(uri: string, fileName: string): Promise<string> {
+    try {
+      const formData = new FormData();
+      
+      // Handle web vs native differently
+      if (uri.startsWith('blob:') || uri.startsWith('http')) {
+        // Web: fetch the blob and create a file
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        formData.append('file', blob, fileName);
+      } else {
+        // React Native: use the special format
+        // @ts-ignore - React Native FormData accepts this format
+        formData.append('file', {
+          uri,
+          type: 'image/jpeg',
+          name: fileName,
+        });
+      }
+      
+      const uploadResponse = await catalogApiClient.post<{ image_url: string }>(
+        '/upload-image',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return uploadResponse.data.image_url;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
    * Create a new item listing
    */
   async createItem(itemData: ItemCreate): Promise<ItemResponse> {

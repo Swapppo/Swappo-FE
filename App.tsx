@@ -9,6 +9,7 @@ import { RegisterScreen } from './screens/RegisterScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { ExploreScreen } from './screens/ExploreScreen';
 import { ActivityIndicator, View } from 'react-native';
+import { UploadItemScreen } from './screens/UploadItemScreen';
 
 import './global.css';
 
@@ -34,6 +35,11 @@ function AppNavigator() {
       <Stack.Screen
         name="Explore"
         component={ExploreScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UploadItem"
+        component={UploadItemScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

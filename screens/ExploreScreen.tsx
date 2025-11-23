@@ -13,31 +13,17 @@ import {
   ActivityIndicator,
   Alert,
   RefreshControl,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { catalogService } from '../services/catalog.service';
 import { ItemResponse } from '../types/catalog.types';
 
-export function ExploreScreen() {
+export function ExploreScreen({ navigation }: { navigation: any }) {
   const { user } = useAuth();
   const [items, setItems] = useState<ItemResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
-  // Upload modal state
-  const [uploadModalVisible, setUploadModalVisible] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: '',
-    image_url: '',
-  });
 
   const loadItems = useCallback(async () => {
     if (!user?.id) {
@@ -114,53 +100,8 @@ export function ExploreScreen() {
   );
 
   const handleUpload = useCallback(() => {
-    setUploadModalVisible(true);
-  }, []);
-
-  const handleSubmitUpload = useCallback(async () => {
-    if (!user?.id) return;
-
-    // Validation
-    if (!formData.name.trim()) {
-      Alert.alert('Error', 'Please enter an item name');
-      return;
-    }
-    if (!formData.description.trim()) {
-      Alert.alert('Error', 'Please enter a description');
-      return;
-    }
-    if (!formData.category.trim()) {
-      Alert.alert('Error', 'Please enter a category');
-      return;
-    }
-    if (!formData.image_url.trim()) {
-      Alert.alert('Error', 'Please enter an image URL');
-      return;
-    }
-
-    try {
-      setUploading(true);
-      await catalogService.createItem({
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-        category: formData.category.trim(),
-        image_urls: [formData.image_url.trim()],
-        location_lat: 0, // Default location - you can add geolocation later
-        location_lon: 0,
-        owner_id: user.id,
-      });
-      
-      Alert.alert('Success', 'Item uploaded successfully!');
-      setUploadModalVisible(false);
-      setFormData({ name: '', description: '', category: '', image_url: '' });
-      loadItems(); // Reload the feed
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to upload item';
-      Alert.alert('Error', message);
-    } finally {
-      setUploading(false);
-    }
-  }, [user?.id, formData, loadItems]);
+    navigation.navigate('UploadItem');
+  }, [navigation]);
 
   if (loading) {
     return (
@@ -283,113 +224,6 @@ export function ExploreScreen() {
           </View>
         )}
       </ScrollView>
-
-      {/* Upload Modal */}
-      <Modal
-        visible={uploadModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setUploadModalVisible(false)}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex-1 justify-end bg-black/50"
-        >
-          <View className="bg-white rounded-t-3xl p-6 max-h-[90%]">
-            {/* Header */}
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-2xl font-bold text-gray-900">Upload Item</Text>
-              <TouchableOpacity
-                onPress={() => setUploadModalVisible(false)}
-                className="p-2"
-              >
-                <Text className="text-2xl text-gray-500">✕</Text>
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView className="mb-4">
-              {/* Name Input */}
-              <View className="mb-4">
-                <Text className="text-sm font-medium text-gray-700 mb-2">
-                  Item Name *
-                </Text>
-                <TextInput
-                  className="border border-gray-300 rounded-lg px-4 py-3 text-base"
-                  placeholder="e.g., Vintage Camera"
-                  value={formData.name}
-                  onChangeText={(text) => setFormData({ ...formData, name: text })}
-                />
-              </View>
-
-              {/* Category Input */}
-              <View className="mb-4">
-                <Text className="text-sm font-medium text-gray-700 mb-2">
-                  Category *
-                </Text>
-                <TextInput
-                  className="border border-gray-300 rounded-lg px-4 py-3 text-base"
-                  placeholder="e.g., Electronics, Books, Clothing"
-                  value={formData.category}
-                  onChangeText={(text) => setFormData({ ...formData, category: text })}
-                />
-              </View>
-
-              {/* Description Input */}
-              <View className="mb-4">
-                <Text className="text-sm font-medium text-gray-700 mb-2">
-                  Description *
-                </Text>
-                <TextInput
-                  className="border border-gray-300 rounded-lg px-4 py-3 text-base"
-                  placeholder="Describe your item..."
-                  value={formData.description}
-                  onChangeText={(text) =>
-                    setFormData({ ...formData, description: text })
-                  }
-                  multiline
-                  numberOfLines={4}
-                  textAlignVertical="top"
-                />
-              </View>
-
-              {/* Image URL Input */}
-              <View className="mb-4">
-                <Text className="text-sm font-medium text-gray-700 mb-2">
-                  Image URL *
-                </Text>
-                <TextInput
-                  className="border border-gray-300 rounded-lg px-4 py-3 text-base"
-                  placeholder="https://example.com/image.jpg"
-                  value={formData.image_url}
-                  onChangeText={(text) =>
-                    setFormData({ ...formData, image_url: text })
-                  }
-                  autoCapitalize="none"
-                  keyboardType="url"
-                />
-                <Text className="text-xs text-gray-500 mt-1">
-                  For now, use a public image URL. Image upload coming soon!
-                </Text>
-              </View>
-            </ScrollView>
-
-            {/* Submit Button */}
-            <TouchableOpacity
-              onPress={handleSubmitUpload}
-              disabled={uploading}
-              className={`py-4 rounded-lg ${uploading ? 'bg-blue-400' : 'bg-blue-600'}`}
-            >
-              {uploading ? (
-                <ActivityIndicator color="white" />
-              ) : (
-                <Text className="text-white text-center font-semibold text-base">
-                  Upload Item
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
     </View>
   );
 }
