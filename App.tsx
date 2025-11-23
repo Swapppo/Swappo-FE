@@ -8,6 +8,10 @@ import { LoginScreen } from './screens/LoginScreen';
 import { RegisterScreen } from './screens/RegisterScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { ExploreScreen } from './screens/ExploreScreen';
+import { SwipeScreen } from './screens/SwipeScreen';
+import { TradeOffersScreen } from './screens/TradeOffersScreen';
+import { MatchesScreen } from './screens/MatchesScreen';
+import { MyItemsScreen } from './screens/MyItemsScreen';
 import { ActivityIndicator, View } from 'react-native';
 import { UploadItemScreen } from './screens/UploadItemScreen';
 
@@ -33,8 +37,28 @@ function AppNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Swipe"
+        component={SwipeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Explore"
         component={ExploreScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TradeOffers"
+        component={TradeOffersScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Matches"
+        component={MatchesScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyItems"
+        component={MyItemsScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
