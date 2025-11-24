@@ -3,10 +3,12 @@
  * Main authenticated screen
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import NotificationBadge from '../components/NotificationBadge';
+import NotificationsPopup from '../components/NotificationsPopup';
 
 type RootStackParamList = {
   Home: undefined;
@@ -15,6 +17,7 @@ type RootStackParamList = {
   TradeOffers: undefined;
   Matches: undefined;
   MyItems: undefined;
+  Notifications: undefined;
 };
 
 type HomeScreenProps = {
@@ -23,6 +26,7 @@ type HomeScreenProps = {
 
 export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { user, logout, isLoading } = useAuth();
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -44,8 +48,13 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
     <View className="flex-1 bg-white">
       {/* Header */}
       <View className="bg-white px-6 pt-12 pb-4 border-b border-gray-200">
-        <Text className="text-3xl font-bold text-gray-900">Swappo</Text>
-        <Text className="text-gray-600 mt-1">Welcome, {user?.username}!</Text>
+        <View className="flex-row justify-between items-center">
+          <View className="flex-1">
+            <Text className="text-3xl font-bold text-gray-900">Swappo</Text>
+            <Text className="text-gray-600 mt-1">Welcome, {user?.username}!</Text>
+          </View>
+          <NotificationBadge onPress={() => setShowNotifications(true)} />
+        </View>
       </View>
 
       {/* Main Navigation Buttons */}
@@ -147,6 +156,12 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Notifications Popup */}
+      <NotificationsPopup
+        visible={showNotifications}
+        onClose={() => setShowNotifications(false)}
+      />
     </View>
   );
 };
