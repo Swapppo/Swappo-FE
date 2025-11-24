@@ -8,6 +8,7 @@ import { View, Text, Image, TouchableOpacity, ActivityIndicator, Dimensions } fr
 import { useFocusEffect } from '@react-navigation/native';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { catalogService } from '../services/catalog.service';
+import { matchmakingService } from '../services/matchmaking.service';
 import { ItemResponse } from '../types/catalog.types';
 import { useAuth } from '../hooks/useAuth';
 import { ENV } from '../config/env.config';
@@ -69,21 +70,44 @@ export function SwipeScreen() {
     });
   };
 
-  const handleSwipe = (direction: 'left' | 'right') => {
+  const handleSwipe = async (direction: 'left' | 'right') => {
+    if (!user?.id || !currentItem) return;
+
     if (direction === 'right' && selectedItemIds.size === 0) {
       // If swiping right (interested) but no items selected, show alert
       alert('Please select at least one of your items to offer for trade');
       return;
     }
 
-    // TODO: Here you would save the trade offer with selectedItemIds and currentItem.id
-    console.log('Trade offer:', {
-      theirItem: currentItem?.id,
-      myItems: Array.from(selectedItemIds),
-      direction
-    });
+    // If user likes the item (swipes right), create a trade offer
+    if (direction === 'right') {
+      try {
+        const tradeOffer = await matchmakingService.createTradeOffer({
+          proposer_id: user.id,
+          receiver_id: currentItem.owner_id,
+          offered_item_ids: Array.from(selectedItemIds),
+          requested_item_ids: [currentItem.id],
+        });
 
-    // Keep selection for next item (removed: setSelectedItemIds(new Set()))
+        console.log('✅ Trade offer created successfully:', {
+          offerId: tradeOffer.id,
+          proposer: tradeOffer.proposer_id,
+          receiver: tradeOffer.receiver_id,
+          offeredItems: tradeOffer.offered_item_ids,
+          requestedItems: tradeOffer.requested_item_ids,
+          status: tradeOffer.status,
+        });
+      } catch (error) {
+        console.error('❌ Failed to create trade offer:', error);
+        alert('Failed to create trade offer. Please try again.');
+        return;
+      }
+    } else {
+      // User passed on this item (swiped left)
+      console.log('👈 Passed on item:', currentItem.id);
+    }
+
+    // Keep selection for next item (so user doesn't have to reselect)
 
     // Move to next item
     const nextIndex = currentIndex + 1;
