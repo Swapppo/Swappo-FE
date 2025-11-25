@@ -1,6 +1,6 @@
 /**
  * Login Screen
- * User authentication interface
+ * User authentication interface with Yard Sale design
  */
 
 import React, { useState } from 'react';
@@ -67,28 +67,33 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white"
+      className="flex-1 bg-cream"
     >
       <View className="flex-1 justify-center px-6">
         {/* Header */}
-        <View className="mb-8">
-          <Text className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</Text>
-          <Text className="text-gray-600">Sign in to continue</Text>
+        <View className="mb-12">
+          <Text className="text-5xl font-young-serif tracking-tight text-dark mb-3">
+            Yard Sale
+          </Text>
+          <Text className="text-xl text-gray-600 font-manrope">Welcome back</Text>
         </View>
 
         {/* Error Message */}
         {errors.general ? (
-          <View className="mb-4 p-4 bg-red-50 rounded-lg border border-red-200">
-            <Text className="text-red-600">{errors.general}</Text>
+          <View className="mb-6 p-4 bg-accent-red/10 rounded-2xl border border-accent-red/20">
+            <Text className="text-accent-red font-manrope font-medium">{errors.general}</Text>
           </View>
         ) : null}
 
         {/* Email Input */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Email</Text>
+        <View className="mb-6">
+          <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+            Email
+          </Text>
           <TextInput
-            className={`border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
-            placeholder="Enter your email"
+            className={`bg-white border ${errors.email ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
+            placeholder="your@email.com"
+            placeholderTextColor="#9CA3AF"
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -96,36 +101,44 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
             editable={!isLoading}
           />
           {errors.email ? (
-            <Text className="text-red-500 text-xs mt-1">{errors.email}</Text>
+            <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+              {errors.email}
+            </Text>
           ) : null}
         </View>
 
         {/* Password Input */}
-        <View className="mb-6">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Password</Text>
+        <View className="mb-8">
+          <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+            Password
+          </Text>
           <TextInput
-            className={`border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
-            placeholder="Enter your password"
+            className={`bg-white border ${errors.password ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
+            placeholder="••••••••"
+            placeholderTextColor="#9CA3AF"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
             editable={!isLoading}
           />
           {errors.password ? (
-            <Text className="text-red-500 text-xs mt-1">{errors.password}</Text>
+            <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+              {errors.password}
+            </Text>
           ) : null}
         </View>
 
         {/* Login Button */}
         <TouchableOpacity
-          className={`rounded-lg py-4 ${isLoading ? 'bg-blue-400' : 'bg-blue-600'}`}
+          className={`rounded-2xl py-4 shadow-lg ${isLoading ? 'bg-dark/60' : 'bg-dark'}`}
           onPress={handleLogin}
           disabled={isLoading}
+          activeOpacity={0.8}
         >
           {isLoading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text className="text-white text-center font-semibold text-base">
+            <Text className="text-white text-center font-bold text-lg font-manrope">
               Sign In
             </Text>
           )}
@@ -133,22 +146,23 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
 
         {/* Register Link */}
         <View className="flex-row justify-center mt-6">
-          <Text className="text-gray-600">Don&apos;t have an account? </Text>
+          <Text className="text-gray-600 font-manrope">Don't have an account? </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Register')}
             disabled={isLoading}
           >
-            <Text className="text-blue-600 font-semibold">Sign Up</Text>
+            <Text className="text-primary font-manrope font-bold">Sign Up</Text>
           </TouchableOpacity>
         </View>
 
         {/* Guest Mode - Development Only */}
         <TouchableOpacity
-          className="mt-4 py-3 border border-gray-300 rounded-lg"
+          className="mt-4 py-3 border-2 border-gray-300 rounded-2xl"
           onPress={continueAsGuest}
           disabled={isLoading}
+          activeOpacity={0.7}
         >
-          <Text className="text-gray-700 text-center font-medium text-base">
+          <Text className="text-gray-700 text-center font-semibold text-base font-manrope">
             Continue as Guest (Dev)
           </Text>
         </TouchableOpacity>

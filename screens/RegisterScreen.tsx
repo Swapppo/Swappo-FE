@@ -1,6 +1,6 @@
 /**
  * Register Screen
- * New user registration interface
+ * New user registration interface with Yard Sale design
  */
 
 import React, { useState } from 'react';
@@ -125,29 +125,32 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white"
+      className="flex-1 bg-cream"
     >
       <ScreenHeader title="Create Account" showBack={true} />
       <ScrollView className="flex-1" contentContainerClassName="flex-grow">
         <View className="flex-1 justify-center px-6 py-8">
           {/* Subtitle */}
           <View className="mb-8">
-            <Text className="text-gray-600">Sign up to get started</Text>
+            <Text className="text-xl text-gray-600 font-manrope">Join Yard Sale</Text>
           </View>
 
           {/* Error Message */}
           {errors.general ? (
-            <View className="mb-4 p-4 bg-red-50 rounded-lg border border-red-200">
-              <Text className="text-red-600">{errors.general}</Text>
+            <View className="mb-6 p-4 bg-accent-red/10 rounded-2xl border border-accent-red/20">
+              <Text className="text-accent-red font-manrope font-medium">{errors.general}</Text>
             </View>
           ) : null}
 
           {/* Email Input */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Email</Text>
+          <View className="mb-5">
+            <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+              Email
+            </Text>
             <TextInput
-              className={`border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
-              placeholder="Enter your email"
+              className={`bg-white border ${errors.email ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
+              placeholder="your@email.com"
+              placeholderTextColor="#9CA3AF"
               value={formData.email}
               onChangeText={(value) => updateField('email', value)}
               autoCapitalize="none"
@@ -155,34 +158,42 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
               editable={!isLoading}
             />
             {errors.email ? (
-              <Text className="text-red-500 text-xs mt-1">{errors.email}</Text>
+              <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+                {errors.email}
+              </Text>
             ) : null}
           </View>
 
           {/* Username Input */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Username</Text>
+          <View className="mb-5">
+            <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+              Username
+            </Text>
             <TextInput
-              className={`border ${errors.username ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
+              className={`bg-white border ${errors.username ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
               placeholder="Choose a username"
+              placeholderTextColor="#9CA3AF"
               value={formData.username}
               onChangeText={(value) => updateField('username', value)}
               autoCapitalize="none"
               editable={!isLoading}
             />
             {errors.username ? (
-              <Text className="text-red-500 text-xs mt-1">{errors.username}</Text>
+              <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+                {errors.username}
+              </Text>
             ) : null}
           </View>
 
           {/* Full Name Input (Optional) */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
-              Full Name <Text className="text-gray-400">(Optional)</Text>
+          <View className="mb-5">
+            <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+              Full Name <Text className="text-gray-300">(Optional)</Text>
             </Text>
             <TextInput
-              className="border border-gray-300 rounded-lg px-4 py-3 text-base"
-              placeholder="Enter your full name"
+              className="bg-white border border-dark/5 rounded-2xl px-5 py-4 text-base font-manrope shadow-sm"
+              placeholder="Your full name"
+              placeholderTextColor="#9CA3AF"
               value={formData.fullName}
               onChangeText={(value) => updateField('fullName', value)}
               editable={!isLoading}
@@ -190,49 +201,58 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
           </View>
 
           {/* Password Input */}
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Password</Text>
+          <View className="mb-5">
+            <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
+              Password
+            </Text>
             <TextInput
-              className={`border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
-              placeholder="Create a password (min 8 characters)"
+              className={`bg-white border ${errors.password ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
+              placeholder="Min 8 characters"
+              placeholderTextColor="#9CA3AF"
               value={formData.password}
               onChangeText={(value) => updateField('password', value)}
               secureTextEntry
               editable={!isLoading}
             />
             {errors.password ? (
-              <Text className="text-red-500 text-xs mt-1">{errors.password}</Text>
+              <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+                {errors.password}
+              </Text>
             ) : null}
           </View>
 
           {/* Confirm Password Input */}
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
+          <View className="mb-8">
+            <Text className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-manrope">
               Confirm Password
             </Text>
             <TextInput
-              className={`border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} rounded-lg px-4 py-3 text-base`}
-              placeholder="Confirm your password"
+              className={`bg-white border ${errors.confirmPassword ? 'border-accent-red' : 'border-dark/5'} rounded-2xl px-5 py-4 text-base font-manrope shadow-sm`}
+              placeholder="Re-enter password"
+              placeholderTextColor="#9CA3AF"
               value={formData.confirmPassword}
               onChangeText={(value) => updateField('confirmPassword', value)}
               secureTextEntry
               editable={!isLoading}
             />
             {errors.confirmPassword ? (
-              <Text className="text-red-500 text-xs mt-1">{errors.confirmPassword}</Text>
+              <Text className="text-accent-red text-xs mt-2 font-manrope font-medium">
+                {errors.confirmPassword}
+              </Text>
             ) : null}
           </View>
 
           {/* Register Button */}
           <TouchableOpacity
-            className={`rounded-lg py-4 ${isLoading ? 'bg-blue-400' : 'bg-blue-600'}`}
+            className={`rounded-2xl py-4 shadow-lg ${isLoading ? 'bg-dark/60' : 'bg-dark'}`}
             onPress={handleRegister}
             disabled={isLoading}
+            activeOpacity={0.8}
           >
             {isLoading ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text className="text-white text-center font-semibold text-base">
+              <Text className="text-white text-center font-bold text-lg font-manrope">
                 Create Account
               </Text>
             )}
@@ -240,12 +260,12 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
 
           {/* Login Link */}
           <View className="flex-row justify-center mt-6">
-            <Text className="text-gray-600">Already have an account? </Text>
+            <Text className="text-gray-600 font-manrope">Already have an account? </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('Login')}
               disabled={isLoading}
             >
-              <Text className="text-blue-600 font-semibold">Sign In</Text>
+              <Text className="text-primary font-manrope font-bold">Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>

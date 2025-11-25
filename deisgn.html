@@ -1,0 +1,510 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yard Sale - Item Exchange</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    
+    
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom inputs */
+        .input-minimal {
+            background: transparent;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: border-color 0.2s;
+        }
+        .input-minimal:focus {
+            outline: none;
+            border-bottom-color: #4B4DED;
+        }
+    </style>
+<link id="all-fonts-link-font-geist" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist">.font-geist { font-family: 'Geist', sans-serif !important; }</style><link id="all-fonts-link-font-roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-roboto">.font-roboto { font-family: 'Roboto', sans-serif !important; }</style><link id="all-fonts-link-font-montserrat" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-montserrat">.font-montserrat { font-family: 'Montserrat', sans-serif !important; }</style><link id="all-fonts-link-font-poppins" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-poppins">.font-poppins { font-family: 'Poppins', sans-serif !important; }</style><link id="all-fonts-link-font-playfair" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&amp;display=swap"><style id="all-fonts-style-font-playfair">.font-playfair { font-family: 'Playfair Display', serif !important; }</style><link id="all-fonts-link-font-instrument-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-instrument-serif">.font-instrument-serif { font-family: 'Instrument Serif', serif !important; }</style><link id="all-fonts-link-font-merriweather" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&amp;display=swap"><style id="all-fonts-style-font-merriweather">.font-merriweather { font-family: 'Merriweather', serif !important; }</style><link id="all-fonts-link-font-bricolage" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-bricolage">.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif !important; }</style><link id="all-fonts-link-font-jakarta" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-jakarta">.font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif !important; }</style><link id="all-fonts-link-font-space-grotesk" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-space-grotesk">.font-space-grotesk { font-family: 'Space Grotesk', sans-serif !important; }</style><link id="all-fonts-link-font-work-sans" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-work-sans">.font-work-sans { font-family: 'Work Sans', sans-serif !important; }</style><link id="all-fonts-link-font-pt-serif" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-pt-serif">.font-pt-serif { font-family: 'PT Serif', serif !important; }</style><link id="all-fonts-link-font-geist-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-geist-mono">.font-geist-mono { font-family: 'Geist Mono', monospace !important; }</style><link id="all-fonts-link-font-space-mono" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap"><style id="all-fonts-style-font-space-mono">.font-space-mono { font-family: 'Space Mono', monospace !important; }</style><link id="all-fonts-link-font-quicksand" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap"><style id="all-fonts-style-font-quicksand">.font-quicksand { font-family: 'Quicksand', sans-serif !important; }</style><link id="all-fonts-link-font-nunito" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&amp;display=swap"><style id="all-fonts-style-font-nunito">.font-nunito { font-family: 'Nunito', sans-serif !important; }</style></head>
+<body class="bg-gray-100 h-screen w-full flex justify-center items-center overflow-hidden font-['Manrope'] antialiased text-[#1A1A1A]">
+
+    <!-- Mobile Container -->
+    <div class="w-full h-full max-w-[420px] bg-[#F5F2EA] relative flex flex-col shadow-2xl overflow-hidden sm:rounded-[32px] sm:h-[90vh] sm:border-[8px] sm:border-[#F5F2EA]">
+        
+        <!-- Top Bar -->
+        <div class="pt-10 pb-4 px-6 flex justify-between items-center z-30 bg-[#F5F2EA]/90 backdrop-blur-sm sticky top-0">
+            <h1 id="header-title" class="font-['Young_Serif'] text-2xl tracking-tight">Yard Sale</h1>
+            <div class="relative">
+                <button onclick="toggleNotifications()" class="p-2 bg-white rounded-full shadow-sm border border-[#1A1A1A]/5 active:scale-95 transition-transform relative group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bell" class="lucide lucide-bell w-5 h-5 text-gray-600 group-hover:text-black transition-colors"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+                    <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-[#D94F35] rounded-full border-2 border-white"></span>
+                </button>
+
+                <!-- Notification Dropdown -->
+                <div id="notification-panel" class="absolute right-0 top-12 w-72 bg-white rounded-2xl shadow-xl border border-[#1A1A1A]/5 p-2 hidden fade-in origin-top-right z-50">
+                    <div class="px-3 py-2 border-b border-gray-100">
+                        <h4 class="font-['Young_Serif'] text-sm">Notifications</h4>
+                    </div>
+                    <div class="max-h-64 overflow-y-auto">
+                        <div class="flex gap-3 p-3 hover:bg-gray-50 rounded-xl cursor-pointer transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-[#3BAE58]/10 flex items-center justify-center text-[#3BAE58] shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="refresh-cw" class="lucide lucide-refresh-cw w-5 h-5"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">New Trade Offer</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Sarah wants to trade for your Lamp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-1 overflow-y-auto no-scrollbar pb-28 relative">
+            
+            <!-- SCREEN: HOME -->
+            <div id="screen-home" class="screen-section px-6 space-y-8 animate-fade">
+                <div class="">
+                    <p class="text-gray-500 text-sm font-medium">Good morning,</p>
+                    <h2 class="text-3xl font-['Young_Serif'] tracking-tight mt-1">Ready to trade?</h2>
+                </div>
+
+                <!-- Main CTA Card -->
+                <div onclick="switchTab('swipe')" class="relative group cursor-pointer">
+                    <div class="absolute inset-0 bg-[#4B4DED] rounded-[32px] rotate-2 transition-transform group-hover:rotate-3 opacity-40"></div>
+                    <div class="relative bg-[#4B4DED] rounded-[32px] p-8 text-white overflow-hidden shadow-xl shadow-indigo-500/20">
+                        <div class="relative z-10">
+                            <h3 class="font-['Young_Serif'] text-3xl tracking-tight mb-2">Start Swiping</h3>
+                            <p class="text-white/80 font-medium text-lg leading-relaxed max-w-[70%]">Discover vintage treasures around Nashville.</p>
+                            <div class="mt-6 inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 hover:bg-white/30 transition-colors">
+                                <span class="font-semibold text-sm">Let's go</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                            </div>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="armchair" class="lucide lucide-armchair absolute -bottom-4 -right-4 w-32 h-32 text-white/10 rotate-[-12deg]"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path><path d="M3 16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z"></path><path d="M5 18v2"></path><path d="M19 18v2"></path></svg>
+                    </div>
+                </div>
+
+                <div class="">
+                    <div class="flex justify-between items-end mb-4">
+                        <h3 class="font-['Young_Serif'] text-xl tracking-tight">Your Listings</h3>
+                        <span onclick="switchTab('upload')" class="text-[#D94F35] text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity">Add New</span>
+                    </div>
+                    <!-- My 4 Items Preview -->
+                    <div class="grid grid-cols-4 gap-3">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=200" class="aspect-square rounded-2xl object-cover border border-black/5 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&amp;w=200" class="aspect-square rounded-2xl object-cover border border-black/5 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1520006403909-838d6b92c22e?q=80&amp;w=200" class="aspect-square rounded-2xl object-cover border border-black/5 shadow-sm">
+                        <div onclick="switchTab('upload')" class="aspect-square rounded-2xl bg-white border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-[#4B4DED] hover:text-[#4B4DED] text-gray-400 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus" class="lucide lucide-plus w-6 h-6"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN: EXPLORE -->
+            <div id="screen-explore" class="screen-section px-6 hidden pb-8 fade-in">
+                <div class="relative mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search absolute left-4 top-3.5 w-5 h-5 text-gray-400"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+                    <input type="text" placeholder="Search for vintage, books..." class="w-full bg-white pl-12 pr-4 py-3 rounded-2xl border border-[#1A1A1A]/5 focus:outline-none focus:ring-2 focus:ring-[#4B4DED]/20 text-base placeholder-gray-400 shadow-sm">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Item 1 -->
+                    <div onclick="openTradeModal('Polaroid 600', 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&amp;w=2000')" class="bg-white p-2.5 rounded-[20px] shadow-sm border border-[#1A1A1A]/5 cursor-pointer hover:shadow-md transition-all hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?q=80&amp;w=2000" class="w-full aspect-[3/4] object-cover rounded-2xl bg-gray-100" alt="Camera">
+                            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold shadow-sm">Trade</div>
+                        </div>
+                        <div class="mt-3 px-1 mb-1">
+                            <h4 class="font-['Young_Serif'] text-lg leading-tight">Polaroid 600</h4>
+                            <p class="text-xs text-gray-500 mt-1">Excellent condition</p>
+                        </div>
+                    </div>
+                     <!-- Item 2 -->
+                     <div onclick="openTradeModal('Eames Style', 'https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&amp;w=2000')" class="bg-white p-2.5 rounded-[20px] shadow-sm border border-[#1A1A1A]/5 cursor-pointer hover:shadow-md transition-all hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?q=80&amp;w=2000" class="w-full aspect-[3/4] object-cover rounded-2xl bg-gray-100" alt="Chair">
+                            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold shadow-sm">Swap</div>
+                        </div>
+                        <div class="mt-3 px-1 mb-1">
+                            <h4 class="font-['Young_Serif'] text-lg leading-tight">Eames Style</h4>
+                            <p class="text-xs text-gray-500 mt-1">Needs minor repair</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN: UPLOAD (New) -->
+            <div id="screen-upload" class="screen-section px-6 hidden pb-8 fade-in h-full flex flex-col">
+                <div class="flex-1">
+                    <div class="mb-6 text-center">
+                        <p class="text-sm text-gray-400 font-medium uppercase tracking-wide">New Listing</p>
+                        <h2 class="text-3xl font-['Young_Serif'] tracking-tight mt-1">What are you trading?</h2>
+                    </div>
+
+                    <!-- Photo Upload -->
+                    <div class="flex gap-3 overflow-x-auto no-scrollbar mb-8 pb-2">
+                        <div class="min-w-[160px] h-[200px] border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-400 bg-white cursor-pointer hover:border-[#4B4DED] hover:text-[#4B4DED] transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" class="lucide lucide-camera w-5 h-5"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+                            </div>
+                            <span class="text-xs font-bold">Add Photo</span>
+                        </div>
+                        <div class="min-w-[160px] h-[200px] relative rounded-2xl overflow-hidden group">
+                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&amp;fit=crop&amp;q=80&amp;w=300" class="w-full h-full object-cover">
+                            <div class="absolute top-2 right-2 p-1 bg-black/50 rounded-full text-white cursor-pointer hover:bg-red-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" class="lucide lucide-x w-3 h-3"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Fields -->
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Title</label>
+                            <input type="text" placeholder="e.g., Vintage Lamp" class="w-full py-3 text-xl font-['Young_Serif'] bg-transparent border-b border-gray-200 focus:border-[#4B4DED] focus:outline-none placeholder-gray-300 transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Condition</label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="condition" class="peer sr-only">
+                                    <div class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-500 peer-checked:bg-[#1A1A1A] peer-checked:text-white peer-checked:border-[#1A1A1A] transition-all">New</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="condition" class="peer sr-only" checked="">
+                                    <div class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-500 peer-checked:bg-[#1A1A1A] peer-checked:text-white peer-checked:border-[#1A1A1A] transition-all">Good</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="condition" class="peer sr-only">
+                                    <div class="px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-500 peer-checked:bg-[#1A1A1A] peer-checked:text-white peer-checked:border-[#1A1A1A] transition-all">Fair</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Description</label>
+                            <textarea placeholder="Tell us about the item..." rows="3" class="w-full py-2 text-base font-medium bg-transparent border-b border-gray-200 focus:border-[#4B4DED] focus:outline-none placeholder-gray-300 resize-none leading-relaxed"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Looking For</label>
+                            <div class="flex items-center gap-2 p-3 bg-white rounded-xl border border-gray-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" class="lucide lucide-sparkles w-4 h-4 text-[#F2A93B]"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+                                <span class="text-sm font-medium text-gray-600">Open to any reasonable trade</span>
+                                <input type="checkbox" class="ml-auto w-5 h-5 rounded text-[#4B4DED] focus:ring-0 border-gray-300" checked="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <button onclick="switchTab('home')" class="w-full py-4 rounded-xl bg-[#1A1A1A] text-white font-bold text-lg shadow-lg hover:bg-black transition-transform active:scale-[0.98]">
+                        List Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN: SWIPE -->
+            <div id="screen-swipe" class="screen-section px-4 h-full flex flex-col hidden pb-4 fade-in">
+                
+                <!-- Main Card Area -->
+                <div class="relative w-full flex-1 flex flex-col justify-center mb-2">
+                    <!-- Background Cards -->
+                    <div class="absolute top-4 left-0 right-0 bottom-4 bg-white rounded-[32px] transform scale-90 translate-y-4 opacity-50 shadow-md border border-[#1A1A1A]/5"></div>
+                    <div class="absolute top-4 left-0 right-0 bottom-4 bg-white rounded-[32px] transform scale-95 translate-y-2 opacity-80 shadow-md border border-[#1A1A1A]/5"></div>
+                    
+                    <!-- Active Card -->
+                    <div class="relative h-full bg-white rounded-[32px] shadow-xl overflow-hidden border border-[#1A1A1A]/5 flex flex-col">
+                        <div class="relative flex-1">
+                            <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&amp;w=2070&amp;auto=format&amp;fit=crop" class="w-full h-full object-cover" alt="Guitar">
+                            <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            
+                            <div class="absolute bottom-6 left-6 right-6 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="bg-[#F2A93B] text-[#1A1A1A] text-xs font-bold px-2 py-0.5 rounded-md">Musical</span>
+                                    <span class="bg-white/20 backdrop-blur text-white text-xs font-bold px-2 py-0.5 rounded-md">3km away</span>
+                                </div>
+                                <h2 class="font-['Young_Serif'] text-3xl tracking-tight leading-none mb-1">Fender Strat</h2>
+                                <p class="text-white/90 text-sm font-medium opacity-80">Looking for synths or drum machines.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center items-center gap-6 mb-2">
+                    <button class="w-14 h-14 rounded-full bg-white border border-[#1A1A1A]/10 text-gray-400 shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="undo" class="lucide lucide-undo w-6 h-6 stroke-[2]"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                    </button>
+                    <button class="w-16 h-16 rounded-full bg-white border-2 border-[#D94F35] text-[#D94F35] shadow-lg flex items-center justify-center hover:bg-[#D94F35] hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" class="lucide lucide-x w-8 h-8 stroke-[2.5]"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                    </button>
+                    <button class="w-16 h-16 rounded-full bg-[#3BAE58] text-white shadow-lg shadow-[#3BAE58]/30 flex items-center justify-center transform hover:scale-105 transition-transform active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" class="lucide lucide-heart w-8 h-8 stroke-[2.5] fill-current"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN: OFFERS -->
+            <div id="screen-offers" class="screen-section px-6 hidden fade-in">
+                <div class="flex items-center gap-2 mb-6">
+                    <h2 class="text-3xl font-['Young_Serif'] tracking-tight">Offers</h2>
+                    <span class="bg-[#D94F35] text-white text-xs font-bold px-2 py-1 rounded-full">2 Active</span>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Offer Card 1 -->
+                    <div class="bg-white p-4 rounded-2xl border border-[#1A1A1A]/5 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&amp;fit=crop&amp;q=80&amp;w=100" class="w-8 h-8 rounded-full object-cover border border-white shadow-sm">
+                                <span class="text-sm font-semibold">James offers bundle:</span>
+                            </div>
+                            <span class="text-xs text-gray-400">2h ago</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between gap-2 p-2 rounded-xl bg-[#F5F2EA]/50">
+                            <div class="flex-1">
+                                <div class="flex -space-x-3 mb-1">
+                                    <img src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&amp;w=100" class="w-12 h-12 rounded-lg object-cover border-2 border-white shadow-sm z-20">
+                                    <img src="https://images.unsplash.com/photo-1550985543-f47f38aee658?q=80&amp;w=100" class="w-12 h-12 rounded-lg object-cover border-2 border-white shadow-sm z-10">
+                                </div>
+                                <p class="text-xs font-bold leading-tight">Radio + 1</p>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right-left" class="lucide lucide-arrow-right-left w-5 h-5 text-gray-400"><path d="m16 3 4 4-4 4"></path><path d="M20 7H4"></path><path d="m8 21-4-4 4-4"></path><path d="M4 17h16"></path></svg>
+                            <div class="flex-1 text-right">
+                                <div class="flex justify-end mb-1">
+                                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=100" class="w-12 h-12 rounded-lg object-cover border-2 border-white shadow-sm">
+                                </div>
+                                <p class="text-xs font-bold leading-tight">Nike Killshot</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-4">
+                            <button class="py-2.5 rounded-xl border-2 border-[#D94F35] text-[#D94F35] font-semibold text-sm">Decline</button>
+                            <button class="py-2.5 rounded-xl bg-[#3BAE58] text-white font-semibold text-sm shadow-md shadow-[#3BAE58]/20">Accept</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Fixed Bottom Navigation (Redesigned) -->
+        <div class="absolute bottom-6 left-4 right-4 z-40">
+            <nav class="bg-white/90 backdrop-blur-xl border border-white/20 rounded-[24px] px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+                <ul class="flex justify-between items-center relative">
+                    
+                    <!-- Home -->
+                    <li onclick="switchTab('home')" class="nav-item flex-1 flex justify-center py-2 cursor-pointer group" data-target="home">
+                        <div class="relative p-2 rounded-xl transition-all duration-300 group-hover:bg-gray-100/50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="home" class="lucide lucide-home w-6 h-6 text-[#1A1A1A] transition-colors nav-icon"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#1A1A1A] rounded-full opacity-100 transition-opacity nav-dot"></span>
+                        </div>
+                    </li>
+
+                    <!-- Explore -->
+                    <li onclick="switchTab('explore')" class="nav-item flex-1 flex justify-center py-2 cursor-pointer group" data-target="explore">
+                         <div class="transition-all duration-300 group-hover:bg-gray-100/50 rounded-xl pt-2 pr-2 pb-2 pl-2 relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="compass" class="lucide lucide-compass w-6 h-6 text-gray-400 transition-colors nav-icon"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#1A1A1A] rounded-full opacity-0 transition-opacity nav-dot"></span>
+                        </div>
+                    </li>
+
+                    <!-- Upload Button (Center) -->
+                    <li onclick="switchTab('upload')" class="nav-item flex-1 flex justify-center -mt-8 cursor-pointer transform hover:scale-105 transition-transform duration-200" data-target="upload">
+                        <div class="w-14 h-14 bg-[#1A1A1A] rounded-full shadow-lg shadow-black/20 flex items-center justify-center text-white border-4 border-[#F5F2EA]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus" class="lucide lucide-plus w-7 h-7"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+                        </div>
+                    </li>
+
+                    <!-- Offers -->
+                    <li onclick="switchTab('offers')" class="nav-item flex-1 flex justify-center py-2 cursor-pointer group" data-target="offers">
+                        <div class="relative p-2 rounded-xl transition-all duration-300 group-hover:bg-gray-100/50">
+                            <div class="relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="inbox" class="lucide lucide-inbox w-6 h-6 text-gray-400 transition-colors nav-icon"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
+                                <span class="absolute top-0 right-0 w-2 h-2 bg-[#D94F35] rounded-full border border-white"></span>
+                            </div>
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#1A1A1A] rounded-full opacity-0 transition-opacity nav-dot"></span>
+                        </div>
+                    </li>
+
+                    <!-- Profile/Chat -->
+                    <li onclick="switchTab('swipe')" class="nav-item flex-1 flex justify-center py-2 cursor-pointer group" data-target="swipe">
+                        <div class="relative p-2 rounded-xl transition-all duration-300 group-hover:bg-gray-100/50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layers" class="lucide lucide-layers w-6 h-6 text-gray-400 transition-colors nav-icon"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg>
+                            <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#1A1A1A] rounded-full opacity-0 transition-opacity nav-dot"></span>
+                        </div>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <!-- TRADE MODAL (Popup) -->
+        <div id="trade-modal" class="absolute inset-0 z-50 hidden">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-[#1A1A1A]/60 backdrop-blur-sm" onclick="closeTradeModal()"></div>
+            
+            <!-- Modal Content -->
+            <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[32px] p-6 animate-slide-up h-[85%] flex flex-col">
+                <div class="w-12 h-1 bg-gray-200 rounded-full mx-auto mb-6"></div>
+                
+                <div class="flex-1 overflow-y-auto no-scrollbar">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-2">You want:</h3>
+                    
+                    <!-- Item To Receive -->
+                    <div class="flex gap-4 mb-8">
+                        <img id="modal-item-img" src="" class="w-24 h-24 rounded-2xl object-cover bg-gray-100">
+                        <div>
+                            <h2 id="modal-item-title" class="font-['Young_Serif'] text-2xl leading-tight">Item Name</h2>
+                            <p class="text-sm text-gray-500 mt-1">Listed by Marcus</p>
+                            <div class="mt-2 inline-flex items-center gap-1 bg-[#F5F2EA] px-2 py-1 rounded-lg text-xs font-bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="map-pin" class="lucide lucide-map-pin w-3 h-3"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg> 2 miles
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-px bg-gray-100 w-full mb-6"></div>
+
+                    <h3 class="text-sm font-bold text-[#1A1A1A] mb-4">Select items to trade (0/4)</h3>
+                    
+                    <!-- My 4 Items Grid Selection -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- Option 1 -->
+                        <div onclick="toggleModalSelection(this)" class="group relative rounded-2xl border-2 border-transparent hover:border-gray-200 cursor-pointer overflow-hidden aspect-square">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&amp;w=400" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                            <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center selection-indicator">
+                                <div class="w-3 h-3 rounded-full bg-[#4B4DED] hidden"></div>
+                            </div>
+                            <p class="absolute bottom-2 left-2 text-xs font-bold text-white drop-shadow-md">Nike Killshot</p>
+                        </div>
+                        <!-- Option 2 -->
+                        <div onclick="toggleModalSelection(this)" class="group relative rounded-2xl border-2 border-transparent hover:border-gray-200 cursor-pointer overflow-hidden aspect-square">
+                            <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&amp;w=400" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                            <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center selection-indicator">
+                                <div class="w-3 h-3 rounded-full bg-[#4B4DED] hidden"></div>
+                            </div>
+                             <p class="absolute bottom-2 left-2 text-xs font-bold text-white drop-shadow-md">Lamp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button onclick="closeTradeModal()" class="w-full py-4 rounded-xl bg-[#4B4DED] text-white font-bold text-lg shadow-lg shadow-[#4B4DED]/30 hover:bg-[#3b3ec7] transition-colors">
+                        Send Offer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen-section').forEach(s => s.classList.add('hidden'));
+            
+            // Show target screen
+            const target = document.getElementById('screen-' + screenId);
+            if(target) {
+                target.classList.remove('hidden');
+                // Re-trigger animation
+                target.classList.remove('fade-in');
+                void target.offsetWidth; // trigger reflow
+                target.classList.add('fade-in');
+            }
+
+            // Update Header Title
+            const titles = {
+                'home': 'Yard Sale',
+                'explore': 'Explore',
+                'upload': 'List Item',
+                'offers': 'Inbox',
+                'swipe': 'Swipe'
+            };
+            document.getElementById('header-title').textContent = titles[screenId] || 'Yard Sale';
+
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const icon = item.querySelector('.nav-icon');
+                const dot = item.querySelector('.nav-dot');
+                
+                if (item.dataset.target === screenId) {
+                    if(icon) {
+                        icon.classList.remove('text-gray-400');
+                        icon.classList.add('text-[#1A1A1A]');
+                    }
+                    if(dot) {
+                        dot.classList.remove('opacity-0');
+                        dot.classList.add('opacity-100');
+                    }
+                } else {
+                    if(icon) {
+                        icon.classList.add('text-gray-400');
+                        icon.classList.remove('text-[#1A1A1A]');
+                    }
+                    if(dot) {
+                        dot.classList.add('opacity-0');
+                        dot.classList.remove('opacity-100');
+                    }
+                }
+            });
+            lucide.createIcons();
+        }
+
+        function toggleNotifications() {
+            document.getElementById('notification-panel').classList.toggle('hidden');
+        }
+
+        function openTradeModal(title, imageSrc) {
+            const modal = document.getElementById('trade-modal');
+            document.getElementById('modal-item-title').textContent = title || 'Item';
+            document.getElementById('modal-item-img').src = imageSrc || '';
+            modal.classList.remove('hidden');
+        }
+
+        function closeTradeModal() {
+            document.getElementById('trade-modal').classList.add('hidden');
+        }
+
+        function toggleModalSelection(el) {
+            const indicator = el.querySelector('.selection-indicator div');
+            const border = el;
+            
+            if (indicator.classList.contains('hidden')) {
+                indicator.classList.remove('hidden');
+                border.classList.add('border-[#4B4DED]');
+                border.classList.remove('border-transparent');
+            } else {
+                indicator.classList.add('hidden');
+                border.classList.remove('border-[#4B4DED]');
+                border.classList.add('border-transparent');
+            }
+        }
+    </script>
+
+</body></html>

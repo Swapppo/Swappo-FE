@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 @supports (color-scheme: light dark) {
   :root {
     color-scheme: light;
@@ -11,5 +13,15 @@
     :root {
       color-scheme: dark;
     }
+  }
+}
+
+@layer utilities {
+  .font-young-serif {
+    font-family: 'Young Serif', serif;
+  }
+  
+  .font-manrope {
+    font-family: 'Manrope', sans-serif;
   }
 }
