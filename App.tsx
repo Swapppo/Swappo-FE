@@ -14,6 +14,7 @@ import { MatchesScreen } from './screens/MatchesScreen';
 import { MyItemsScreen } from './screens/MyItemsScreen';
 import { ActivityIndicator, View } from 'react-native';
 import { UploadItemScreen } from './screens/UploadItemScreen';
+import { ChatScreen } from './screens/ChatScreen';
 
 import './global.css';
 
@@ -64,6 +65,11 @@ function AppNavigator() {
       <Stack.Screen
         name="UploadItem"
         component={UploadItemScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
