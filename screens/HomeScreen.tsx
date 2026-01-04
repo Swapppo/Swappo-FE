@@ -79,7 +79,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <View className="bg-cream/90 backdrop-blur px-6 pt-12 pb-4">
         <View className="flex-row justify-between items-center">
           <Text className="text-2xl font-young-serif tracking-tight text-dark">
-            Yard Sale
+            Swappo
           </Text>
           <NotificationBadge onPress={() => setShowNotifications(true)} />
         </View>
