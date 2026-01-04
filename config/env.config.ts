@@ -1,59 +1,65 @@
 /**
  * Environment Configuration
  * Handles different API URLs for different platforms (web, iOS simulator, Android emulator, physical devices)
+ * 
+ * Uses EXPO_PUBLIC_* environment variables from .env files:
+ * - .env.local - Local development
+ * - .env.production - Production (Firebase Hosting)
  */
 
 import { Platform } from 'react-native';
 
 /**
- * Get the appropriate API base URL based on the platform
+ * Get the appropriate API base URL based on the platform and environment
  * 
- * Development:
+ * Development (local):
  * - Web: http://127.0.0.1:8000
  * - iOS Simulator: http://localhost:8000
  * - Android Emulator: http://10.0.2.2:8000 (emulator's special IP for host machine)
  * - Physical Device: Use your computer's local network IP (e.g., http://192.168.1.100:8000)
  * 
- * Production:
- * - All platforms: Your production API URL
+ * Production (Firebase Hosting):
+ * - All platforms: Your GKE ingress URL (from EXPO_PUBLIC_API_BASE_URL)
  */
 
-const getApiUrl = (port: number = 8000): string => {
-  // Set to true when deploying to production
-  const IS_PRODUCTION = false;
+const getApiUrl = (): string => {
+  // Check if we have environment variable set (production build)
+  const envApiUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
+  const environment = process.env.EXPO_PUBLIC_ENVIRONMENT || 'development';
 
-  if (IS_PRODUCTION) {
-    // Replace with your production API URL
-    return 'https://api.yourapp.com';
+  // Use environment variable if in production
+  if (environment === 'production' && envApiUrl) {
+    return envApiUrl;
   }
 
-  // Development environment
+  // Development environment - platform-specific URLs
   if (Platform.OS === 'web') {
-    return `http://127.0.0.1:${port}`;
+    return envApiUrl || 'http://127.0.0.1:8000';
   }
 
   if (Platform.OS === 'android') {
     // Android emulator uses 10.0.2.2 to access host machine's localhost
     // If you're using a physical Android device, replace this with your computer's IP
-    // Example: return `http://192.168.1.100:${port}`;
-    return `http://10.0.2.2:${port}`;
+    // Example: return 'http://192.168.1.100:8000';
+    return envApiUrl || 'http://10.0.2.2:8000';
   }
 
   if (Platform.OS === 'ios') {
     // iOS simulator can use localhost
-    return `http://localhost:${port}`;
+    return envApiUrl || 'http://localhost:8000';
   }
 
   // Default fallback
-  return `http://127.0.0.1:${port}`;
+  return envApiUrl || 'http://127.0.0.1:8000';
 };
 
 export const ENV = {
-  // Auth service (port 8000)
-  API_BASE_URL: getApiUrl(8000),
-  // Catalog service (port 8001) - assuming different port
-  CATALOG_API_BASE_URL: getApiUrl(8001),
+  // All services are behind the same ingress in production
+  API_BASE_URL: getApiUrl(),
+  CATALOG_API_BASE_URL: getApiUrl(), // Same URL, different path (/catalog)
+  ENVIRONMENT: process.env.EXPO_PUBLIC_ENVIRONMENT || 'development',
   IS_DEV: __DEV__,
+  IS_PRODUCTION: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production',
 };
 
 // Helper to get your computer's local IP for physical device testing

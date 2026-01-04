@@ -10,8 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 
-
-
+# Environment files (keep .env.production for reference, but add real URLs as secrets)
+.env.local
 
 ios
 android
