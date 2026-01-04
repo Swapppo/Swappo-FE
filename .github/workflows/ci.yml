@@ -1,16 +1,16 @@
 # CI/CD Pipeline for Swappo Frontend
 
-name: Frontend CI/CD Pipeline
+name: Frontend CI/CD
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:
 
 env:
   NODE_VERSION: '20'
-  REGISTRY: ghcr.io
 
 jobs:
   lint-and-test:
@@ -46,8 +46,8 @@ jobs:
           echo "No test script found, skipping tests"
         fi
 
-  build-check:
-    name: Build Check
+  build:
+    name: Build & Deploy
     needs: lint-and-test
     runs-on: ubuntu-latest
     
@@ -65,47 +65,31 @@ jobs:
       run: npm ci
       
     - name: Build for web
+      env:
+        EXPO_PUBLIC_API_BASE_URL: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_API_URL || secrets.DEV_API_URL }}
+        EXPO_PUBLIC_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       run: npx expo export --platform web
-      continue-on-error: true
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
-      if: success()
       with:
         name: web-build
         path: dist/
         retention-days: 7
 
-  # Optional: Build native apps (requires Expo credentials)
-  build-native:
-    name: Build Native Apps
-    needs: lint-and-test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Deploy to Firebase (Production)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        node-version: ${{ env.NODE_VERSION }}
-        
-    - name: Setup Expo
-      uses: expo/expo-github-action@v8
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        channelId: live
+        projectId: swappo-a34df
+
+    - name: Deploy to Firebase (Preview)
+      if: github.event_name == 'pull_request'
+      uses: FirebaseExtended/action-hosting-deploy@v0
       with:
-        expo-version: latest
-        token: ${{ secrets.EXPO_TOKEN }}
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build on EAS
-      run: |
-        echo "To enable EAS builds:"
-        echo "1. Run: npm install -g eas-cli"
-        echo "2. Run: eas build:configure"
-        echo "3. Add EXPO_TOKEN to GitHub secrets"
-        echo "4. Uncomment the build commands below"
-        # eas build --platform all --non-interactive --no-wait
+        repoToken: ${{ secrets.GITHUB_TOKEN }}
+        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        projectId: swappo-a34df
