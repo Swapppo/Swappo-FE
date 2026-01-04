@@ -73,7 +73,7 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
         {/* Header */}
         <View className="mb-12">
           <Text className="text-5xl font-young-serif tracking-tight text-dark mb-3">
-            Yard Sale
+            Swappo
           </Text>
           <Text className="text-xl text-gray-600 font-manrope">Welcome back</Text>
         </View>
