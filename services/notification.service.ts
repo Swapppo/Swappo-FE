@@ -4,7 +4,7 @@
  */
 
 import axios from 'axios';
-import { Platform } from 'react-native';
+import { ENV } from '../config/env.config';
 import { API_CONFIG } from '../config/api.config';
 import {
   NotificationCreate,
@@ -14,30 +14,8 @@ import {
   NotificationStats,
 } from '../types/notification.types';
 
-const getNotificationApiUrl = (port: number = 8003): string => {
-  const IS_PRODUCTION = false;
-
-  if (IS_PRODUCTION) {
-    return 'https://api.yourapp.com';
-  }
-
-  if (typeof window !== 'undefined') {
-    return `http://127.0.0.1:${port}`;
-  }
-
-  // For React Native
-  if (Platform.OS === 'android') {
-    return `http://10.0.2.2:${port}`;
-  }
-
-  if (Platform.OS === 'ios') {
-    return `http://localhost:${port}`;
-  }
-
-  return `http://127.0.0.1:${port}`;
-};
-
-const NOTIFICATION_BASE_URL = getNotificationApiUrl(8003);
+// Use the same base URL as other services - all behind the same ingress
+const NOTIFICATION_BASE_URL = ENV.API_BASE_URL;
 
 class NotificationService {
   /**

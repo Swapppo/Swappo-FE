@@ -1,10 +1,28 @@
 #!/usr/bin/env pwsh
 # Quick deploy script for Firebase Hosting
 
-Write-Host "`n🏗️  Building Expo web app..." -ForegroundColor Cyan
+Write-Host "`n🏗️  Building Expo web app for production..." -ForegroundColor Cyan
+
+# Temporarily rename .env.local to avoid conflicts with production build
+$envLocalExists = Test-Path ".env.local"
+if ($envLocalExists) {
+    Write-Host "📦 Temporarily moving .env.local..." -ForegroundColor Yellow
+    Rename-Item ".env.local" ".env.local.backup" -ErrorAction SilentlyContinue
+}
+
 npx expo export --platform web
 
-if ($LASTEXITCODE -ne 0) {
+# Capture the build exit code
+$buildExitCode = $LASTEXITCODE
+
+# Restore .env.local
+if ($envLocalExists) {
+    Write-Host "📦 Restoring .env.local..." -ForegroundColor Yellow
+    Rename-Item ".env.local.backup" ".env.local" -ErrorAction SilentlyContinue
+}
+
+# Check if build failed
+if ($buildExitCode -ne 0) {
     Write-Host "❌ Build failed!" -ForegroundColor Red
     exit 1
 }
