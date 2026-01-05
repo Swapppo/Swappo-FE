@@ -11,6 +11,13 @@ export const API_CONFIG = {
   API_VERSION: 'v1',
   TIMEOUT: 10000, // 10 seconds
   
+  // Service-specific base URLs (all use same ingress in production)
+  AUTH_BASE_URL: ENV.API_BASE_URL,
+  CATALOG_BASE_URL: ENV.API_BASE_URL,
+  MATCHMAKING_BASE_URL: ENV.API_BASE_URL,
+  CHAT_BASE_URL: ENV.API_BASE_URL,
+  NOTIFICATIONS_BASE_URL: ENV.API_BASE_URL
+  
   // Endpoints - All include service prefix for ingress routing
   ENDPOINTS: {
     // Authentication Service (Port 8000 in dev)
