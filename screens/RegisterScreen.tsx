@@ -1,6 +1,6 @@
 /**
  * Register Screen
- * New user registration interface with Yard Sale design
+ * New user registration interface with SWappo design
  */
 
 import React, { useState } from 'react';

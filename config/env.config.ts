@@ -27,8 +27,16 @@ const getApiUrl = (): string => {
   const envApiUrl = process.env.EXPO_PUBLIC_API_BASE_URL;
   const environment = process.env.EXPO_PUBLIC_ENVIRONMENT || 'development';
 
+  // Log environment variables for debugging
+  console.log('🔧 Environment Config:', {
+    EXPO_PUBLIC_API_BASE_URL: envApiUrl,
+    EXPO_PUBLIC_ENVIRONMENT: environment,
+    platform: Platform.OS,
+  });
+
   // Use environment variable if in production
   if (environment === 'production' && envApiUrl) {
+    console.log('✅ Using production API URL from environment variable:', envApiUrl);
     return envApiUrl;
   }
 

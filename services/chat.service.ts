@@ -6,6 +6,7 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { API_CONFIG } from '../config/api.config';
+import { ENV } from '../config/env.config';
 import {
   ChatRoomCreate,
   ChatRoomResponse,
@@ -16,13 +17,15 @@ import {
   ChatStatistics,
 } from '../types/chat.types';
 
-const getChatApiUrl = (port: number = 8004): string => {
-  const IS_PRODUCTION = false;
-
-  if (IS_PRODUCTION) {
-    return 'https://api.yourapp.com/chat';
+const getChatApiUrl = (): string => {
+  // In production, use the environment variable URL (all services behind same ingress)
+  if (ENV.IS_PRODUCTION) {
+    return ENV.API_BASE_URL;
   }
 
+  // Development: use service-specific port
+  const port = 8004;
+  
   if (typeof window !== 'undefined') {
     return `http://127.0.0.1:${port}`;
   }
@@ -33,13 +36,13 @@ const getChatApiUrl = (port: number = 8004): string => {
   }
 
   if (Platform.OS === 'ios') {
-    return `http://localhost:${port}`;
+    return `http://127.0.0.1:${port}`;
   }
 
   return `http://127.0.0.1:${port}`;
 };
 
-const CHAT_BASE_URL = getChatApiUrl(8004);
+const CHAT_BASE_URL = getChatApiUrl();
 
 class ChatService {
   /**

@@ -1,6 +1,6 @@
 /**
  * Login Screen
- * User authentication interface with Yard Sale design
+ * User authentication interface with Swappo design
  */
 
 import React, { useState } from 'react';
@@ -75,7 +75,7 @@ export const LoginScreen = ({ navigation }: { navigation: any }) => {
           <Text className="text-5xl font-young-serif tracking-tight text-dark mb-3">
             Swappo
           </Text>
-          <Text className="text-xl text-gray-600 font-manrope">Welcome back</Text>
+          <Text className="text-xl text-gray-600 font-manrope">Welcome back user</Text>
         </View>
 
         {/* Error Message */}
