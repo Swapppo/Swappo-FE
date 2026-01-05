@@ -18,28 +18,8 @@ import {
 } from '../types/chat.types';
 
 const getChatApiUrl = (): string => {
-  // In production, use the environment variable URL (all services behind same ingress)
-  if (ENV.IS_PRODUCTION) {
-    return ENV.API_BASE_URL;
-  }
-
-  // Development: use service-specific port
-  const port = 8004;
-  
-  if (typeof window !== 'undefined') {
-    return `http://127.0.0.1:${port}`;
-  }
-
-  // For React Native
-  if (Platform.OS === 'android') {
-    return `http://10.0.2.2:${port}`;
-  }
-
-  if (Platform.OS === 'ios') {
-    return `http://127.0.0.1:${port}`;
-  }
-
-  return `http://127.0.0.1:${port}`;
+  // All services behind same ingress in production
+  return ENV.API_BASE_URL;
 };
 
 const CHAT_BASE_URL = getChatApiUrl();
@@ -51,7 +31,7 @@ class ChatService {
   async createChatRoom(roomData: ChatRoomCreate): Promise<ChatRoomResponse> {
     try {
       const response = await axios.post(
-        `${CHAT_BASE_URL}/api/v1/chat-rooms`,
+        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms`,
         roomData,
         {
           headers: {
@@ -73,7 +53,7 @@ class ChatService {
   async getChatRoomByTradeOffer(tradeOfferId: number): Promise<ChatRoomResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/chat-rooms/trade-offer/${tradeOfferId}`,
+        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms/trade-offer/${tradeOfferId}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -99,7 +79,7 @@ class ChatService {
   }): Promise<ChatRoomWithLastMessage[]> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/chat-rooms`,
+        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms`,
         {
           params,
           timeout: API_CONFIG.TIMEOUT,
@@ -118,7 +98,7 @@ class ChatService {
   async getChatRoom(chatRoomId: number): Promise<ChatRoomResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/chat-rooms/${chatRoomId}`,
+        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms/${chatRoomId}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -136,7 +116,7 @@ class ChatService {
   async sendMessage(messageData: MessageCreate): Promise<MessageResponse> {
     try {
       const response = await axios.post(
-        `${CHAT_BASE_URL}/api/v1/messages`,
+        `${CHAT_BASE_URL}/chat/api/v1/messages`,
         messageData,
         {
           headers: {
@@ -162,7 +142,7 @@ class ChatService {
   }): Promise<MessageResponse[]> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/messages`,
+        `${CHAT_BASE_URL}/chat/api/v1/messages`,
         {
           params,
           timeout: API_CONFIG.TIMEOUT,
@@ -181,7 +161,7 @@ class ChatService {
   async getMessage(messageId: number): Promise<MessageResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/messages/${messageId}`,
+        `${CHAT_BASE_URL}/chat/api/v1/messages/${messageId}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -199,7 +179,7 @@ class ChatService {
   async updateMessage(messageId: number, update: MessageUpdate): Promise<MessageResponse> {
     try {
       const response = await axios.patch(
-        `${CHAT_BASE_URL}/api/v1/messages/${messageId}`,
+        `${CHAT_BASE_URL}/chat/api/v1/messages/${messageId}`,
         update,
         {
           headers: {
@@ -221,7 +201,7 @@ class ChatService {
   async markMessagesAsRead(chatRoomId: number, userId: string): Promise<void> {
     try {
       await axios.patch(
-        `${CHAT_BASE_URL}/api/v1/messages/mark-read`,
+        `${CHAT_BASE_URL}/chat/api/v1/messages/mark-read`,
         null,
         {
           params: {
@@ -243,7 +223,7 @@ class ChatService {
   async getStatistics(userId?: string): Promise<ChatStatistics> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/api/v1/statistics`,
+        `${CHAT_BASE_URL}/chat/api/v1/statistics`,
         {
           params: userId ? { user_id: userId } : undefined,
           timeout: API_CONFIG.TIMEOUT,

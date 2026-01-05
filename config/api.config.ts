@@ -11,19 +11,20 @@ export const API_CONFIG = {
   API_VERSION: 'v1',
   TIMEOUT: 10000, // 10 seconds
   
-  // Endpoints
+  // Endpoints - All include service prefix for ingress routing
   ENDPOINTS: {
     AUTH: {
-      REGISTER: '/api/v1/auth/register',
-      LOGIN: '/api/v1/auth/login',
-      REFRESH: '/api/v1/auth/refresh',
-      ME: '/api/v1/auth/me',
-      CHANGE_PASSWORD: '/api/v1/auth/change-password',
+      REGISTER: '/auth/api/v1/auth/register',
+      LOGIN: '/auth/api/v1/auth/login',
+      REFRESH: '/auth/api/v1/auth/refresh',
+      ME: '/auth/api/v1/auth/me',
+      CHANGE_PASSWORD: '/auth/api/v1/auth/change-password',
     },
     CATALOG: {
-      ITEMS: '/items',
-      ITEM_BY_ID: (id: number) => `/items/${id}`,
-      FEED: '/items/feed',
+      ITEMS: '/catalog/items',
+      ITEM_BY_ID: (id: number) => `/catalog/items/${id}`,
+      FEED: '/catalog/items/feed',
+      UPLOAD_IMAGE: '/catalog/upload-image',
     },
     HEALTH: '/health',
   },

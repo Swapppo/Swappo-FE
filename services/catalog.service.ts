@@ -39,7 +39,7 @@ class CatalogService {
       }
       
       const uploadResponse = await catalogApiClient.post<{ image_url: string }>(
-        '/upload-image',
+        API_CONFIG.ENDPOINTS.CATALOG.UPLOAD_IMAGE,
         formData,
         {
           headers: {
