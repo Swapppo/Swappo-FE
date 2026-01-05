@@ -19,7 +19,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../hooks/useAuth';
 import { catalogService } from '../services/catalog.service';
-import { ENV } from '../config/env.config';
+import { API_CONFIG } from '../config/api.config';
 import { ScreenHeader } from '../components/ScreenHeader';
 
 export function UploadItemScreen({ navigation }: { navigation: any }) {
@@ -94,7 +94,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
         try {
           const imageUrl = await catalogService.uploadImage(uri, fileName);
           // Convert relative URL to absolute URL
-          const absoluteUrl = `${ENV.CATALOG_API_BASE_URL}${imageUrl}`;
+          const absoluteUrl = `${API_CONFIG.CATALOG_BASE_URL}${imageUrl}`;
           uploadedImageUrls.push(absoluteUrl);
         } catch (err) {
           console.error('Failed to upload image:', err);
