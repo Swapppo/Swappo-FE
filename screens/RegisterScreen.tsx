@@ -132,7 +132,7 @@ export const RegisterScreen = ({ navigation }: { navigation: any }) => {
         <View className="flex-1 justify-center px-6 py-8">
           {/* Subtitle */}
           <View className="mb-8">
-            <Text className="text-xl text-gray-600 font-manrope">Join Yard Sale</Text>
+            <Text className="text-xl text-gray-600 font-manrope">Join Swappo</Text>
           </View>
 
           {/* Error Message */}
