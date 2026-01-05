@@ -141,7 +141,7 @@ class CatalogService {
   async getMyItems(ownerId: string): Promise<ItemResponse[]> {
     try {
       const response = await catalogApiClient.get<ItemResponse[]>(
-        '/items/my-items',
+        API_CONFIG.ENDPOINTS.CATALOG.MY_ITEMS,
         {
           params: { owner_id: ownerId },
         }

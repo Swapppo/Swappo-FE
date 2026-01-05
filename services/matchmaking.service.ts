@@ -29,7 +29,7 @@ class MatchmakingService {
   async createTradeOffer(offerData: TradeOfferCreate): Promise<TradeOfferResponse> {
     try {
       const response = await axios.post(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFERS}`,
         offerData,
         {
           headers: {
@@ -51,7 +51,7 @@ class MatchmakingService {
   async getTradeOffer(offerId: number): Promise<TradeOfferResponse> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/${offerId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFER_BY_ID(offerId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -76,7 +76,7 @@ class MatchmakingService {
   }): Promise<TradeOfferResponse[]> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFERS}`,
         {
           params,
           timeout: API_CONFIG.TIMEOUT,
@@ -100,7 +100,7 @@ class MatchmakingService {
   ): Promise<TradeOfferResponse[]> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/received/${userId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.RECEIVED_OFFERS(userId)}`,
         {
           params: { status, limit, offset },
           timeout: API_CONFIG.TIMEOUT,
@@ -124,7 +124,7 @@ class MatchmakingService {
   ): Promise<TradeOfferResponse[]> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/sent/${userId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.SENT_OFFERS(userId)}`,
         {
           params: { status, limit, offset },
           timeout: API_CONFIG.TIMEOUT,
@@ -147,7 +147,7 @@ class MatchmakingService {
   ): Promise<TradeOfferResponse> {
     try {
       const response = await axios.patch(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/${offerId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFER_BY_ID(offerId)}`,
         updateData,
         {
           params: { user_id: userId },
@@ -170,7 +170,7 @@ class MatchmakingService {
   async deleteTradeOffer(offerId: number, userId: string): Promise<void> {
     try {
       await axios.delete(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/${offerId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFER_BY_ID(offerId)}`,
         {
           params: { user_id: userId },
           timeout: API_CONFIG.TIMEOUT,
@@ -188,7 +188,7 @@ class MatchmakingService {
   async getUserStatistics(userId: string): Promise<MatchStatistics> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/statistics/${userId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.STATISTICS(userId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -209,7 +209,7 @@ class MatchmakingService {
   ): Promise<TradeOfferResponse[]> {
     try {
       const response = await axios.get(
-        `${MATCHMAKING_BASE_URL}/matchmaking/api/v1/offers/by-item/${itemId}`,
+        `${MATCHMAKING_BASE_URL}${API_CONFIG.ENDPOINTS.MATCHMAKING.OFFERS_BY_ITEM(itemId)}`,
         {
           params: { status },
           timeout: API_CONFIG.TIMEOUT,

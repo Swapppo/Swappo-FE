@@ -14,7 +14,6 @@ import {
   NotificationStats,
 } from '../types/notification.types';
 
-// Use the same base URL as other services - all behind the same ingress
 const NOTIFICATION_BASE_URL = ENV.API_BASE_URL;
 
 class NotificationService {
@@ -35,7 +34,7 @@ class NotificationService {
       });
 
       const response = await axios.get(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/${userId}?${params}`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.USER_NOTIFICATIONS(userId)}?${params}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -53,7 +52,7 @@ class NotificationService {
   async getUnreadCount(userId: string): Promise<number> {
     try {
       const response = await axios.get<UnreadCountResponse>(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/${userId}/unread-count`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.UNREAD_COUNT(userId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -71,7 +70,7 @@ class NotificationService {
   async getStats(userId: string): Promise<NotificationStats> {
     try {
       const response = await axios.get<NotificationStats>(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/${userId}/stats`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.STATS(userId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -89,7 +88,7 @@ class NotificationService {
   async markAsRead(userId: string, notificationIds: number[]): Promise<void> {
     try {
       await axios.patch(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/mark-read?user_id=${userId}`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.MARK_READ(userId)}`,
         { notification_ids: notificationIds } as MarkAsReadRequest,
         {
           headers: {
@@ -110,7 +109,7 @@ class NotificationService {
   async markSingleAsRead(userId: string, notificationId: number): Promise<NotificationResponse> {
     try {
       const response = await axios.patch(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/${notificationId}/read?user_id=${userId}`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.MARK_SINGLE_READ(notificationId, userId)}`,
         {},
         {
           timeout: API_CONFIG.TIMEOUT,
@@ -129,7 +128,7 @@ class NotificationService {
   async deleteNotification(userId: string, notificationId: number): Promise<void> {
     try {
       await axios.delete(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/${notificationId}?user_id=${userId}`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.DELETE_NOTIFICATION(notificationId, userId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -146,7 +145,7 @@ class NotificationService {
   async deleteAllNotifications(userId: string): Promise<void> {
     try {
       await axios.delete(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications/user/${userId}`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.DELETE_ALL(userId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -163,7 +162,7 @@ class NotificationService {
   async createNotification(notificationData: NotificationCreate): Promise<NotificationResponse> {
     try {
       const response = await axios.post(
-        `${NOTIFICATION_BASE_URL}/notifications/api/v1/notifications`,
+        `${NOTIFICATION_BASE_URL}${API_CONFIG.ENDPOINTS.NOTIFICATIONS.CREATE}`,
         notificationData,
         {
           headers: {

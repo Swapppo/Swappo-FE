@@ -31,7 +31,7 @@ class ChatService {
   async createChatRoom(roomData: ChatRoomCreate): Promise<ChatRoomResponse> {
     try {
       const response = await axios.post(
-        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.CHAT_ROOMS}`,
         roomData,
         {
           headers: {
@@ -53,7 +53,7 @@ class ChatService {
   async getChatRoomByTradeOffer(tradeOfferId: number): Promise<ChatRoomResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms/trade-offer/${tradeOfferId}`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.CHAT_ROOM_BY_TRADE_OFFER(tradeOfferId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -79,7 +79,7 @@ class ChatService {
   }): Promise<ChatRoomWithLastMessage[]> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.CHAT_ROOMS}`,
         {
           params,
           timeout: API_CONFIG.TIMEOUT,
@@ -98,7 +98,7 @@ class ChatService {
   async getChatRoom(chatRoomId: number): Promise<ChatRoomResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/chat-rooms/${chatRoomId}`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.CHAT_ROOM_BY_ID(chatRoomId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -116,7 +116,7 @@ class ChatService {
   async sendMessage(messageData: MessageCreate): Promise<MessageResponse> {
     try {
       const response = await axios.post(
-        `${CHAT_BASE_URL}/chat/api/v1/messages`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.MESSAGES}`,
         messageData,
         {
           headers: {
@@ -142,7 +142,7 @@ class ChatService {
   }): Promise<MessageResponse[]> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/messages`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.MESSAGES}`,
         {
           params,
           timeout: API_CONFIG.TIMEOUT,
@@ -161,7 +161,7 @@ class ChatService {
   async getMessage(messageId: number): Promise<MessageResponse> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/messages/${messageId}`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.MESSAGE_BY_ID(messageId)}`,
         {
           timeout: API_CONFIG.TIMEOUT,
         }
@@ -179,7 +179,7 @@ class ChatService {
   async updateMessage(messageId: number, update: MessageUpdate): Promise<MessageResponse> {
     try {
       const response = await axios.patch(
-        `${CHAT_BASE_URL}/chat/api/v1/messages/${messageId}`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.MESSAGE_BY_ID(messageId)}`,
         update,
         {
           headers: {
@@ -201,7 +201,7 @@ class ChatService {
   async markMessagesAsRead(chatRoomId: number, userId: string): Promise<void> {
     try {
       await axios.patch(
-        `${CHAT_BASE_URL}/chat/api/v1/messages/mark-read`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.MARK_MESSAGES_READ}`,
         null,
         {
           params: {
@@ -223,7 +223,7 @@ class ChatService {
   async getStatistics(userId?: string): Promise<ChatStatistics> {
     try {
       const response = await axios.get(
-        `${CHAT_BASE_URL}/chat/api/v1/statistics`,
+        `${CHAT_BASE_URL}${API_CONFIG.ENDPOINTS.CHAT.STATISTICS}`,
         {
           params: userId ? { user_id: userId } : undefined,
           timeout: API_CONFIG.TIMEOUT,
