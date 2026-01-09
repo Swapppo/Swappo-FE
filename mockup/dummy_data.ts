@@ -1,0 +1,72 @@
+export const dummy_items = [
+  {
+    "id": "item-1",
+    "title": "Classic Red Apple",
+    "description": "A crisp, fresh red apple — perfect for snacks or trading.",
+    "images": ["https://placehold.co/600x400/ff0000/ffffff?text=Apple"],
+    "category": "Food",
+    "condition": "New",
+    "owner": "alice",
+    "location": "Stockholm",
+    "tags": ["fruit", "fresh"],
+    "swap_for": ["item-5", "item-7"],
+    "available": true,
+    "created_at": "2026-01-05T10:00:00Z"
+  },
+  {
+    "id": "item-2",
+    "title": "Garden Shovel",
+    "description": "Sturdy shovel with ergonomic handle, lightly used.",
+    "images": ["https://placehold.co/600x400/8b5e3c/ffffff?text=Shovel"],
+    "category": "Tools",
+    "condition": "Used",
+    "owner": "bob",
+    "location": "Gothenburg",
+    "tags": ["gardening", "tool"],
+    "swap_for": ["item-3"],
+    "available": true,
+    "created_at": "2026-01-03T15:24:00Z"
+  },
+  {
+    "id": "item-3",
+    "title": "Vintage Axe",
+    "description": "Well-balanced vintage axe, great for display or light use.",
+    "images": ["https://placehold.co/600x400/333333/ffffff?text=Axe"],
+    "category": "Tools",
+    "condition": "Good",
+    "owner": "carol",
+    "location": "Malmö",
+    "tags": ["vintage", "collectible"],
+    "swap_for": [],
+    "available": true,
+    "created_at": "2025-12-30T09:10:00Z"
+  },
+  {
+    "id": "item-4",
+    "title": "Small Watering Can",
+    "description": "Bright and light watering can, perfect for indoor plants.",
+    "images": ["https://placehold.co/600x400/00a86b/ffffff?text=Watering+Can"],
+    "category": "Home",
+    "condition": "New",
+    "owner": "dave",
+    "location": "Uppsala",
+    "tags": ["gardening", "home"],
+    "swap_for": ["item-2"],
+    "available": true,
+    "created_at": "2026-01-01T12:00:00Z"
+  },
+  {
+    "id": "item-5",
+    "title": "Handmade Peach Soap",
+    "description": "Aromatic peach soap bar made with natural oils.",
+    "images": ["https://placehold.co/600x400/00a86b/ffffff?text=Watering+Can"],
+    "category": "Bath",
+    "condition": "New",
+    "owner": "ellen",
+    "location": "Lund",
+    "tags": ["soap", "handmade"],
+    "swap_for": ["item-1"],
+    "available": true,
+    "created_at": "2026-01-06T08:45:00Z"
+  }
+]

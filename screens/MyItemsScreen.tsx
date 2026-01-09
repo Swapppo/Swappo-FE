@@ -11,10 +11,13 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { useAuth } from '../hooks/useAuth';
 import { catalogService } from '../services/catalog.service';
 import { ItemResponse } from '../types/catalog.types';
+import { dummy_items } from '../mockup/dummy_data';
+import { mapDummyItemToItemResponse } from '@/mockup/item.mapper';
 
 type RootStackParamList = {
   MyItems: undefined;
   UploadItem: undefined;
+  ItemInfo: { item: ItemResponse }; // <-- Added for navigation
 };
 
 type MyItemsScreenProps = {
@@ -28,13 +31,14 @@ export const MyItemsScreen = ({ navigation }: MyItemsScreenProps) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchMyItems = async () => {
-    if (!user?.id) return;
-    
     try {
-      const myItems = await catalogService.getMyItems(user.id);
-      setItems(myItems);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const items = dummy_items.map(mapDummyItemToItemResponse);
+      setItems(items);
     } catch (error) {
-      console.error('Failed to fetch my items:', error);
+      console.error('Failed to load dummy items:', error);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -97,9 +101,10 @@ export const MyItemsScreen = ({ navigation }: MyItemsScreenProps) => {
             {Array.from({ length: Math.ceil(items.length / 2) }).map((_, rowIndex) => (
               <View key={`row-${rowIndex}`} className="flex-row mb-4" style={{ gap: 12 }}>
                 {items.slice(rowIndex * 2, rowIndex * 2 + 2).map((item) => (
-                  <View
+                  <TouchableOpacity
                     key={item.id}
                     className="flex-1 bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
+                    onPress={() => navigation.navigate('ItemInfo', { item })} // <-- Navigate on click
                   >
                     {/* Item Image */}
                     {item.image_urls && item.image_urls.length > 0 && (
@@ -132,7 +137,7 @@ export const MyItemsScreen = ({ navigation }: MyItemsScreenProps) => {
                         </View>
                       </View>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             ))}

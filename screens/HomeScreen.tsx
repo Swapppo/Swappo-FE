@@ -2,7 +2,6 @@
  * Home Screen
  * Main authenticated screen with Yard Sale design
  */
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Image, ScrollView } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
@@ -12,7 +11,8 @@ import NotificationsPopup from '../components/NotificationsPopup';
 import { catalogService } from '../services/catalog.service';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
-
+import { dummy_items } from '../mockup/dummy_data';
+import { mapDummyItemToItemResponse } from '../mockup/item.mapper';
 type RootStackParamList = {
   Home: undefined;
   Swipe: undefined;
@@ -22,6 +22,7 @@ type RootStackParamList = {
   MyItems: undefined;
   UploadItem: undefined;
   Notifications: undefined;
+  ItemInfo: {item: ItemResponse}
 };
 
 type HomeScreenProps = {
@@ -38,17 +39,35 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
     loadMyItems();
   }, [user?.id]);
 
+  //!PRAVILNO
+  // const loadMyItems = async () => {
+  //   if (!user?.id) return;
+  //   try {
+  //     const items = await catalogService.getMyItems(user.id);
+  //     setMyItems(items.slice(0, 4));
+  //   } catch (error) {
+  //     console.error('Failed to load items:', error);
+  //   } finally {
+  //     setLoadingItems(false);
+  //   }
+  //  };
+
+  //!USE OF DUMMY_DATA 
+  //TODO: REMOVE WHEN WORKING
   const loadMyItems = async () => {
-    if (!user?.id) return;
+    setLoadingItems(true);
     try {
-      const items = await catalogService.getMyItems(user.id);
+      const items = dummy_items.map(mapDummyItemToItemResponse);
       setMyItems(items.slice(0, 4));
-    } catch (error) {
-      console.error('Failed to load items:', error);
-    } finally {
+    }
+    catch (error) {
+      console.error('Failed to load dummy items: ', error);
+    }
+    finally {
       setLoadingItems(false);
     }
-  };
+  }
+
 
   const handleLogout = async () => {
     try {
@@ -138,16 +157,20 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           </View>
 
           {/* My Items Grid */}
-          <View className="flex-row gap-3">
+          <View className="flex-row">
             {loadingItems ? (
               <ActivityIndicator size="small" color="#4B4DED" />
             ) : (
-              <>
-                {myItems.slice(0, 3).map((item) => (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ gap: 12 }}
+              >
+                {myItems.map((item) => (
                   <TouchableOpacity
                     key={item.id}
-                    className="flex-1"
-                    onPress={() => navigation.navigate('MyItems')}
+                    className="w-28"
+                    onPress={() => navigation.navigate('ItemInfo', {item})}
                   >
                     <Image
                       source={{
@@ -155,18 +178,20 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
                           ? item.image_urls[0]
                           : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
                       }}
-                      className="aspect-square rounded-2xl bg-white border border-dark/5 shadow-sm"
+                      className="w-28 h-28 rounded-2xl bg-white border border-dark/5 shadow-sm"
                       resizeMode="cover"
                     />
                   </TouchableOpacity>
                 ))}
+
+                {/* Add new item tile */}
                 <TouchableOpacity
-                  className="flex-1 aspect-square rounded-2xl bg-white border-2 border-dashed border-gray-300 items-center justify-center"
+                  className="w-28 h-28 rounded-2xl bg-white border-2 border-dashed border-gray-300 items-center justify-center"
                   onPress={() => navigation.navigate('UploadItem')}
                 >
                   <Text className="text-gray-400 text-3xl">+</Text>
                 </TouchableOpacity>
-              </>
+              </ScrollView>
             )}
           </View>
         </View>
