@@ -343,7 +343,7 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
                           source={{
                             uri: item.image_urls[0]?.startsWith('http')
                               ? item.image_urls[0]
-                              : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                              : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
                           }}
                           className="w-full h-full"
                           resizeMode="cover"

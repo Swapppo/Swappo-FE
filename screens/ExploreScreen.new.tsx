@@ -255,7 +255,7 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
                         source={{
                           uri: item.image_urls[0]?.startsWith('http')
                             ? item.image_urls[0]
-                            : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                            : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
                         }}
                         className="w-full bg-gray-100 rounded-2xl"
                         style={{ aspectRatio: 3 / 4 }}
@@ -311,7 +311,7 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
                     source={{
                       uri: selectedItem.image_urls[0]?.startsWith('http')
                         ? selectedItem.image_urls[0]
-                        : `${ENV.CATALOG_API_BASE_URL}${selectedItem.image_urls[0]}`,
+                        : `${ENV.API_BASE_URL}${selectedItem.image_urls[0]}`,
                     }}
                     className="w-24 h-24 rounded-2xl bg-gray-100"
                     resizeMode="cover"
@@ -355,7 +355,7 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
                       source={{
                         uri: item.image_urls[0]?.startsWith('http')
                           ? item.image_urls[0]
-                          : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                          : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
                       }}
                       className="w-full h-full"
                       resizeMode="cover"
