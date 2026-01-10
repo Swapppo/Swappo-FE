@@ -3,13 +3,14 @@
  * View and manage trade offers
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { useAuth } from '../hooks/useAuth';
 import { matchmakingService } from '../services/matchmaking.service';
 import { catalogService } from '../services/catalog.service';
+import { shippingService } from '../services/easyship.service';
 import { TradeOfferResponse, TradeOfferStatus } from '../types/matchmaking.types';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
@@ -20,6 +21,7 @@ export function TradeOffersScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [receivedOffers, setReceivedOffers] = useState<TradeOfferResponse[]>([]);
   const [itemsCache, setItemsCache] = useState<Map<number, ItemResponse>>(new Map());
+  const [shippingCosts, setShippingCosts] = useState<Map<number, { cost: number; currency: string; courier: string }>>(new Map());
 
   useFocusEffect(
     React.useCallback(() => {
@@ -60,11 +62,45 @@ export function TradeOffersScreen() {
       });
       
       setItemsCache(cache);
+
+      // Load shipping estimates for each offer
+      loadShippingEstimates(offers);
     } catch (error) {
       console.error('Failed to load offers:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadShippingEstimates = async (offers: TradeOfferResponse[]) => {
+    console.log('📦 Loading shipping estimates for', offers.length, 'offers');
+    
+    const costs = new Map<number, { cost: number; currency: string; courier: string }>();
+
+    // Load shipping costs for each offer in parallel
+    await Promise.all(
+      offers.map(async (offer) => {
+        try {
+          // Estimate shipping cost via Cloud Function
+          // Using default values: US to US, 1kg package
+          // You can customize this based on actual user location and item weight
+          const estimate = await shippingService.estimateShippingCost({
+            from_country: 'US',
+            to_country: 'US',
+            weight_kg: 1,
+          });
+
+          if (estimate) {
+            costs.set(offer.id, estimate);
+            console.log(`✅ Shipping estimate for offer ${offer.id}: $${estimate.cost} via ${estimate.courier}`);
+          }
+        } catch (error) {
+          console.error(`❌ Failed to get shipping estimate for offer ${offer.id}:`, error);
+        }
+      })
+    );
+
+    setShippingCosts(costs);
   };
 
   const onRefresh = async () => {
@@ -165,7 +201,7 @@ export function TradeOffersScreen() {
                               source={{
                                 uri: item.image_urls[0]?.startsWith('http')
                                   ? item.image_urls[0]
-                                  : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                                  : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
                               }}
                               className="w-full h-full"
                               resizeMode="cover"
@@ -196,7 +232,7 @@ export function TradeOffersScreen() {
                               source={{
                                 uri: item.image_urls[0]?.startsWith('http')
                                   ? item.image_urls[0]
-                                  : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                                  : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
                               }}
                               className="w-full h-full"
                               resizeMode="cover"
@@ -216,6 +252,23 @@ export function TradeOffersScreen() {
                 {offer.message && (
                   <View className="mb-4 p-3 bg-gray-50 rounded-lg">
                     <Text className="text-sm text-gray-700">{offer.message}</Text>
+                  </View>
+                )}
+
+                {/* Shipping Cost */}
+                {shippingCosts.has(offer.id) && (
+                  <View className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <View className="flex-row items-center justify-between">
+                      <Text className="text-sm font-semibold text-blue-900">
+                        Estimated Shipping
+                      </Text>
+                      <Text className="text-lg font-bold text-blue-600">
+                        ${shippingCosts.get(offer.id)!.cost.toFixed(2)}
+                      </Text>
+                    </View>
+                    <Text className="text-xs text-blue-700 mt-1">
+                      via {shippingCosts.get(offer.id)!.courier}
+                    </Text>
                   </View>
                 )}
 

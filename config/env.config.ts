@@ -25,4 +25,7 @@ export const ENV = {
   ENVIRONMENT: process.env.EXPO_PUBLIC_ENVIRONMENT || 'development',
   IS_DEV: __DEV__,
   IS_PRODUCTION: process.env.EXPO_PUBLIC_ENVIRONMENT === 'production',
+  
+  // Shipping estimates Cloud Function URL EXPO_PUBLIC_SHIPPING_API_URL=https://shipping-estimates-lgvrxvnupa-ey.a.run.app 
+  SHIPPING_API_URL: process.env.EXPO_PUBLIC_SHIPPING_API_URL || 'https://shipping-estimates-lgvrxvnupa-ey.a.run.app',
 };
