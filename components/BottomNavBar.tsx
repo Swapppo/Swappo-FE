@@ -14,7 +14,6 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'Swipe', icon: '👆', label: 'Swipe' },
   { name: 'TradeOffers', icon: '🤝', label: 'Offers' },
   { name: 'Matches', icon: '❤️', label: 'Matches' },
-  { name: 'MyItems', icon: '📦', label: 'My Items' },
 ];
 
 export const BottomNavBar = ({ currentRoute }: { currentRoute?: string }) => {

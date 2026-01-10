@@ -211,8 +211,8 @@ export function MatchesScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-gray-50">
-        <ScreenHeader title="Matches" showBack={true} />
+      <View className="flex-1 bg-cream">
+        <ScreenHeader title="Matches" showBack={false} />
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#3b82f6" />
         </View>
@@ -221,8 +221,8 @@ export function MatchesScreen() {
   }
 
   return (
-    <View className="flex-1 bg-gray-50">
-      <ScreenHeader title="Matches" showBack={true} />
+    <View className="flex-1 bg-cream">
+      <ScreenHeader title="Matches" showBack={false} />
       
       <ScrollView
         className="flex-1"
@@ -232,15 +232,15 @@ export function MatchesScreen() {
         }
       >
         {matches.length === 0 ? (
-          <View className="flex-1 justify-center items-center py-20">
-            <Text className="text-gray-400 text-lg mb-2">No matches yet</Text>
-            <Text className="text-gray-400 text-sm text-center px-8">
+            <View className="flex-1 justify-center items-center py-20">
+            <Text className="text-gray-400 text-lg mb-2 font-manrope">No matches yet</Text>
+            <Text className="text-gray-400 text-sm text-center px-8 font-manrope">
               When someone accepts your trade offer, you'll see it here and can start chatting!
             </Text>
           </View>
         ) : (
           <>
-            <Text className="text-lg font-bold text-gray-800 mb-4">
+            <Text className="text-lg font-manrope font-bold text-gray-800 mb-4">
               Your Matches ({matches.length})
             </Text>
             {matches.map(renderMatch)}

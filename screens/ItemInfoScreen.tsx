@@ -10,7 +10,6 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
-import { ScreenHeader } from '../components/ScreenHeader';
 import NotificationBadge from '../components/NotificationBadge';
 import NotificationsPopup from '@/components/NotificationsPopup';
 
@@ -44,7 +43,7 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
         >
             {/* Header */}
             <View className="flex-row justify-between items-center bg-cream">
-                <Text className="text-2xl font-young-serif font-bold  tracking-tight text-dark">
+                <Text className="text-2xl font-manrope font-bold tracking-tight text-dark">
                     Item info
                 </Text>
                 <NotificationsPopup
@@ -55,12 +54,12 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
             </View>
 
             {/* Edit Listing Label */}
-            <Text className="text-xs text-gray-400 mb-2 tracking-widest font-sans">
+            <Text className="text-xs text-gray-400 mb-2 tracking-widest font-manrope">
                 EDIT LISTING
             </Text>
 
             {/* Title */}
-            <Text className="font-serif text-2xl text-[#1B1A17] font-bold mb-6">
+            <Text className="font-manrope text-2xl text-[#1B1A17] font-bold mb-6">
                 What are you trading?
             </Text>
 
@@ -81,16 +80,16 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
             </View>
 
             {/* TITLE Label */}
-            <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide">
+            <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide font-manrope">
                 TITLE
             </Text>
-            <Text className="text-lg text-[#1B1A17] font-serif mb-6">{item.name}</Text>
+            <Text className="text-lg text-[#1B1A17] font-manrope mb-6">{item.name}</Text>
 
             {/* DESCRIPTION Label */}
-            <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide">
+            <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide font-manrope">
                 DESCRIPTION
             </Text>
-            <Text className="text-base text-[#1B1A17] font-sans leading-relaxed">
+            <Text className="text-base text-[#1B1A17] font-manrope leading-relaxed">
                 {item.description || 'No description provided.'}
             </Text>
 

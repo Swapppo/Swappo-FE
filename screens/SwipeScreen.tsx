@@ -121,8 +121,8 @@ export function SwipeScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white">
-        <ScreenHeader title="Swipe" showBack={true} />
+      <View className="flex-1 bg-cream">
+        <ScreenHeader title="Swipe" showBack={false} />
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#ec4899" />
         </View>
@@ -131,8 +131,8 @@ export function SwipeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white">
-      <ScreenHeader title="Swipe" showBack={true} />
+    <View className="flex-1 bg-cream">
+      <ScreenHeader title="Swipe" showBack={false} />
       
       {/* Main Card Area */}
       <View className="flex-1 justify-center items-center px-4">
@@ -154,20 +154,20 @@ export function SwipeScreen() {
             
             {/* Item Info */}
             <View className="p-6 bg-white">
-              <Text className="text-2xl font-bold text-gray-900 mb-1">
+                <Text className="text-2xl font-manrope font-bold text-gray-900 mb-1">
                 {currentItem.name}
               </Text>
-              <Text className="text-gray-600 text-base">
+              <Text className="text-gray-600 text-base font-manrope">
                 Owner: {currentItem.owner_id}
               </Text>
             </View>
           </View>
         ) : (
           <View className="items-center">
-            <Text className="text-2xl font-bold text-gray-400 mb-2">
+            <Text className="text-2xl font-manrope font-bold text-gray-400 mb-2">
               No more items
             </Text>
-            <Text className="text-gray-500">Check back later!</Text>
+            <Text className="text-gray-500 font-manrope">Check back later!</Text>
           </View>
         )}
       </View>
@@ -193,10 +193,10 @@ export function SwipeScreen() {
 
       {/* My Items Row - Selectable */}
       <View className="bg-gray-100 px-4 py-4 border-t border-gray-200">
-        <Text className="text-sm font-semibold text-gray-700 mb-1">
+        <Text className="text-sm font-manrope font-semibold text-gray-700 mb-1">
           Your Items to Offer
         </Text>
-        <Text className="text-xs text-gray-500 mb-3">
+        <Text className="text-xs text-gray-500 mb-3 font-manrope">
           Tap to select items (can select multiple)
         </Text>
         <View className="flex-row" style={{ gap: 8 }}>
@@ -238,12 +238,12 @@ export function SwipeScreen() {
             })
           ) : (
             <View className="flex-1 items-center justify-center py-4">
-              <Text className="text-gray-400 text-sm">No items yet</Text>
+              <Text className="text-gray-400 text-sm font-manrope">No items yet</Text>
             </View>
           )}
         </View>
         {selectedItemIds.size > 0 && (
-          <Text className="text-xs text-blue-600 font-semibold mt-2 text-center">
+          <Text className="text-xs text-blue-600 font-manrope font-semibold mt-2 text-center">
             {selectedItemIds.size} item{selectedItemIds.size > 1 ? 's' : ''} selected
           </Text>
         )}

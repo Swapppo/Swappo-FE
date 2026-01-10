@@ -11,7 +11,6 @@ import { ExploreScreen } from './screens/ExploreScreen';
 import { SwipeScreen } from './screens/SwipeScreen';
 import { TradeOffersScreen } from './screens/TradeOffersScreen';
 import { MatchesScreen } from './screens/MatchesScreen';
-import { MyItemsScreen } from './screens/MyItemsScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { ActivityIndicator, View } from 'react-native';
 import { UploadItemScreen } from './screens/UploadItemScreen';
@@ -59,11 +58,6 @@ function AppNavigator({ currentRoute }: { currentRoute: string }) {
         <Stack.Screen
           name="Matches"
           component={MatchesScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MyItems"
-          component={MyItemsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
