@@ -12,6 +12,7 @@ import { SwipeScreen } from './screens/SwipeScreen';
 import { TradeOffersScreen } from './screens/TradeOffersScreen';
 import { MatchesScreen } from './screens/MatchesScreen';
 import { MyItemsScreen } from './screens/MyItemsScreen';
+import { SettingsScreen } from './screens/SettingsScreen';
 import { ActivityIndicator, View } from 'react-native';
 import { UploadItemScreen } from './screens/UploadItemScreen';
 import { ChatScreen } from './screens/ChatScreen';
@@ -78,6 +79,11 @@ function AppNavigator({ currentRoute }: { currentRoute: string }) {
         <Stack.Screen
           name="ItemInfo"
           component={ItemInfoScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

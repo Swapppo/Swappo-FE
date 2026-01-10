@@ -22,6 +22,7 @@ type RootStackParamList = {
   MyItems: undefined;
   UploadItem: undefined;
   Notifications: undefined;
+  Settings: undefined;
   ItemInfo: {item: ItemResponse}
 };
 
@@ -100,7 +101,16 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
           <Text className="text-2xl font-young-serif tracking-tight text-dark">
             Swappo
           </Text>
-          <NotificationBadge onPress={() => setShowNotifications(true)} />
+          <View className="flex-row items-center" style={{ gap: 12 }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Settings')}
+              className="bg-white border border-dark/5 rounded-2xl p-2 shadow-sm"
+              activeOpacity={0.7}
+            >
+              <Text className="text-xl">⚙️</Text>
+            </TouchableOpacity>
+            <NotificationBadge onPress={() => setShowNotifications(true)} />
+          </View>
         </View>
       </View>
 

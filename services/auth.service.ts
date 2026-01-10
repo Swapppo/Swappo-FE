@@ -9,6 +9,7 @@ import {
   UserLogin,
   Token,
   UserResponse,
+  UserProfile,
   ChangePassword,
   ApiError,
 } from '../types/auth.types';
@@ -109,6 +110,21 @@ class AuthService {
   async changePassword(passwords: ChangePassword): Promise<void> {
     try {
       await apiClient.post(API_CONFIG.ENDPOINTS.AUTH.CHANGE_PASSWORD, passwords);
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Update user profile
+   */
+  async updateProfile(profile: UserProfile): Promise<UserResponse> {
+    try {
+      const response = await apiClient.put<UserResponse>(
+        API_CONFIG.ENDPOINTS.AUTH.PROFILE,
+        profile
+      );
+      return response.data;
     } catch (error) {
       throw this.handleError(error);
     }

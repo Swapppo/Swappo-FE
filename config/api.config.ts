@@ -27,6 +27,7 @@ export const API_CONFIG = {
       REFRESH: '/auth/api/v1/auth/refresh',
       ME: '/auth/api/v1/auth/me',
       CHANGE_PASSWORD: '/auth/api/v1/auth/change-password',
+      PROFILE: '/auth/api/v1/auth/profile',
       LOGOUT: '/auth/api/v1/auth/logout',
     },
     
