@@ -1,20 +1,19 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, useWindowDimensions } from 'react-native';
+import { View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Home, Search, Hand, Handshake, Heart } from 'lucide-react';
 
 interface NavItem {
   name: string;
-  icon: string;
-  label: string;
+  icon: React.ComponentType<{ size: number; color: string }>;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { name: 'Home', icon: '🏠', label: 'Home' },
-  { name: 'Explore', icon: '🔍', label: 'Explore' },
-  { name: 'Swipe', icon: '👆', label: 'Swipe' },
-  { name: 'TradeOffers', icon: '🤝', label: 'Offers' },
-  { name: 'Matches', icon: '❤️', label: 'Matches' },
-  { name: 'MyItems', icon: '📦', label: 'My Items' },
+  { name: 'Home', icon: Home },
+  { name: 'Explore', icon: Search },
+  { name: 'Swipe', icon: Hand },
+  { name: 'TradeOffers', icon: Handshake },
+  { name: 'Matches', icon: Heart },
 ];
 
 export const BottomNavBar = ({ currentRoute }: { currentRoute?: string }) => {
@@ -40,9 +39,8 @@ export const BottomNavBar = ({ currentRoute }: { currentRoute?: string }) => {
 
   // Adjust sizes based on screen width
   const iconSize = width < 350 ? 20 : width < 500 ? 24 : 28;
-  const paddingVertical = width < 350 ? 6 : 10;
-  const paddingHorizontal = width < 350 ? 8 : 16;
-  const fontSize = width < 350 ? 10 : 12;
+  const paddingVertical = width < 350 ? 8 : 12;
+  const paddingHorizontal = width < 350 ? 12 : 20;
 
   return (
     <View
@@ -72,6 +70,7 @@ export const BottomNavBar = ({ currentRoute }: { currentRoute?: string }) => {
       >
         {NAV_ITEMS.map((item) => {
           const active = isActive(item.name);
+          const IconComponent = item.icon;
           return (
             <TouchableOpacity
               key={item.name}
@@ -86,18 +85,11 @@ export const BottomNavBar = ({ currentRoute }: { currentRoute?: string }) => {
               }}
               activeOpacity={0.7}
             >
-              <Text style={{ fontSize: iconSize }}>{item.icon}</Text>
-              <Text
-                style={{
-                  marginTop: 4,
-                  fontSize,
-                  fontWeight: 'bold',
-                  color: active ? 'white' : '#6B7280',
-                  opacity: active ? 1 : 0.6,
-                }}
-              >
-                {item.label}
-              </Text>
+              <IconComponent
+                size={iconSize}
+                color={active ? 'white' : '#6B7280'}
+                strokeWidth={2}
+              />
             </TouchableOpacity>
           );
         })}

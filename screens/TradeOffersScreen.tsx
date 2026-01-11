@@ -145,7 +145,7 @@ export function TradeOffersScreen() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white">
+      <View className="flex-1 bg-cream">
         <ScreenHeader title="Trade Offers" showBack={true} />
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#ec4899" />
@@ -155,8 +155,8 @@ export function TradeOffersScreen() {
   }
 
   return (
-    <View className="flex-1 bg-white">
-      <ScreenHeader title="Trade Offers" showBack={true} />
+    <View className="flex-1 bg-cream">
+      <ScreenHeader title="Trade Offers" showBack={false} />
       
       <ScrollView
         className="flex-1"
@@ -166,8 +166,8 @@ export function TradeOffersScreen() {
       >
         {receivedOffers.length === 0 ? (
           <View className="flex-1 justify-center items-center py-20">
-            <Text className="text-gray-400 text-lg mb-2">No pending offers</Text>
-            <Text className="text-gray-400 text-sm">New offers will appear here</Text>
+            <Text className="text-gray-400 text-lg mb-2 font-manrope">No pending offers</Text>
+            <Text className="text-gray-400 text-sm font-manrope">New offers will appear here</Text>
           </View>
         ) : (
           <View className="p-4" style={{ gap: 16 }}>

@@ -131,7 +131,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white"
+      className="flex-1 bg-cream"
     >
       <ScreenHeader title="Upload New Item" showBack={true} />
       <ScrollView className="flex-1">
@@ -139,7 +139,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
 
           {/* Name Input */}
           <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Item Name</Text>
+            <Text className="text-sm font-medium text-gray-700 mb-2 font-manrope">Item Name</Text>
             <TextInput
               className="border border-gray-300 rounded-lg px-4 py-3 text-base"
               placeholder="Enter item name"
@@ -151,7 +151,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
 
           {/* Description Input */}
           <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Description</Text>
+            <Text className="text-sm font-medium text-gray-700 mb-2 font-manrope">Description</Text>
             <TextInput
               className="border border-gray-300 rounded-lg px-4 py-3 text-base h-24"
               placeholder="Describe your item"
@@ -166,7 +166,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
 
           {/* Category Input */}
           <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Category</Text>
+            <Text className="text-sm font-medium text-gray-700 mb-2 font-manrope">Category</Text>
             <TextInput
               className="border border-gray-300 rounded-lg px-4 py-3 text-base"
               placeholder="e.g., Electronics, Books, Clothing"
@@ -178,7 +178,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
 
           {/* Image Picker */}
           <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
+            <Text className="text-sm font-medium text-gray-700 mb-2 font-manrope">
               Images (Max 5)
             </Text>
             
@@ -212,8 +212,8 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
                 disabled={uploading}
               >
                 <Text className="text-4xl text-gray-400 mb-2">📷</Text>
-                <Text className="text-gray-600 font-medium">Tap to select images</Text>
-                <Text className="text-gray-400 text-sm mt-1">
+                <Text className="text-gray-600 font-medium font-manrope">Tap to select images</Text>
+                <Text className="text-gray-400 text-sm mt-1 font-manrope">
                   {selectedImages.length}/5 selected
                 </Text>
               </TouchableOpacity>
@@ -229,10 +229,10 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
             {uploading ? (
               <View className="flex-row items-center justify-center">
                 <ActivityIndicator color="white" />
-                <Text className="text-white font-semibold ml-2">Uploading...</Text>
+                <Text className="text-white font-manrope font-semibold ml-2">Uploading...</Text>
               </View>
             ) : (
-              <Text className="text-white text-center font-semibold text-base">
+              <Text className="text-white text-center font-manrope font-semibold text-base">
                 Upload Item
               </Text>
             )}

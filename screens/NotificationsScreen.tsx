@@ -222,7 +222,7 @@ export function NotificationsScreen() {
 
   if (loading && !refreshing) {
     return (
-      <View style={styles.container}>
+      <View className="flex-1 bg-cream">
         <ScreenHeader title="Notifications" />
         <View style={styles.centered}>
           <ActivityIndicator size="large" color="#007AFF" />
@@ -232,7 +232,7 @@ export function NotificationsScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 bg-cream">
       <ScreenHeader title="Notifications" />
 
       <View style={styles.controls}>
@@ -336,6 +336,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#666',
+    fontFamily: 'Manrope',
   },
   activeFilterText: {
     color: '#FFFFFF',
@@ -356,6 +357,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
+    fontFamily: 'Manrope',
   },
   deleteAllButton: {
     backgroundColor: '#FF3B30',
@@ -399,11 +401,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#000',
+    fontFamily: 'Manrope',
     marginBottom: 2,
   },
   timeAgo: {
     fontSize: 12,
     color: '#999',
+    fontFamily: 'Manrope',
   },
   unreadDot: {
     width: 10,
@@ -417,6 +421,7 @@ const styles = StyleSheet.create({
     color: '#333',
     lineHeight: 20,
     marginBottom: 12,
+    fontFamily: 'Manrope',
   },
   actions: {
     flexDirection: 'row',
@@ -434,6 +439,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
+    fontFamily: 'Manrope',
   },
   deleteButton: {
     backgroundColor: '#FF3B30',
@@ -442,6 +448,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
+    fontFamily: 'Manrope',
   },
   emptyContainer: {
     flex: 1,
@@ -458,12 +465,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
+    fontFamily: 'Manrope',
     marginBottom: 8,
     textAlign: 'center',
   },
   emptySubtext: {
     fontSize: 14,
     color: '#999',
+    fontFamily: 'Manrope',
     textAlign: 'center',
     lineHeight: 20,
   },

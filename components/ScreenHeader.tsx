@@ -20,7 +20,7 @@ export function ScreenHeader({ title, showBack = true, rightAction }: ScreenHead
   const navigation = useNavigation();
 
   return (
-    <View className="bg-white px-6 pt-12 pb-4 border-b border-gray-200">
+    <View className="bg-cream px-6 pt-12 pb-4">
       <View className="flex-row items-center justify-between">
         {/* Back Button */}
         {showBack ? (
@@ -36,14 +36,14 @@ export function ScreenHeader({ title, showBack = true, rightAction }: ScreenHead
         )}
 
         {/* Title */}
-        <Text className="text-2xl font-bold text-gray-900 flex-1">
+        <Text className="text-2xl font-manrope font-bold text-dark flex-1">
           {title}
         </Text>
 
         {/* Right Action */}
         {rightAction ? (
           <TouchableOpacity onPress={rightAction.onPress} className="ml-3">
-            <Text className="text-blue-600 font-semibold">{rightAction.label}</Text>
+            <Text className="text-blue-600 font-manrope font-semibold">{rightAction.label}</Text>
           </TouchableOpacity>
         ) : (
           <View className="w-8" />

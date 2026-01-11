@@ -126,7 +126,7 @@ export function ChatScreen({ route }: ChatScreenProps) {
         <View key={message.id}>
           {showDateHeader && (
             <View className="items-center my-2">
-              <Text className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              <Text className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full font-manrope">
                 {messageDate}
               </Text>
             </View>
@@ -143,14 +143,14 @@ export function ChatScreen({ route }: ChatScreenProps) {
               }`}
             >
               <Text
-                className={`text-base ${
+                className={`text-base font-manrope ${
                   isOwnMessage ? 'text-white' : 'text-gray-900'
                 }`}
               >
                 {message.content}
               </Text>
               <Text
-                className={`text-xs mt-1 ${
+                className={`text-xs mt-1 font-manrope ${
                   isOwnMessage ? 'text-blue-100' : 'text-gray-500'
                 }`}
               >
@@ -166,7 +166,7 @@ export function ChatScreen({ route }: ChatScreenProps) {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-white">
+      <View className="flex-1 bg-cream">
         <ScreenHeader title="Chat" showBack={true} />
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#3b82f6" />
@@ -177,7 +177,7 @@ export function ChatScreen({ route }: ChatScreenProps) {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
+      className="flex-1 bg-cream"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
     >
@@ -191,8 +191,8 @@ export function ChatScreen({ route }: ChatScreenProps) {
       >
         {messages.length === 0 ? (
           <View className="flex-1 justify-center items-center py-20">
-            <Text className="text-gray-400 text-base">No messages yet</Text>
-            <Text className="text-gray-400 text-sm mt-2">
+            <Text className="text-gray-400 text-base font-manrope">No messages yet</Text>
+            <Text className="text-gray-400 text-sm mt-2 font-manrope">
               Start the conversation!
             </Text>
           </View>

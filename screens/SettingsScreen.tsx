@@ -112,7 +112,7 @@ export function SettingsScreen({ navigation }: { navigation: any }) {
         <View className="px-6 pt-6">
           {/* Account Info Section */}
           <View className="mb-8">
-            <Text className="text-2xl font-young-serif text-dark mb-2">
+            <Text className="text-2xl font-manrope text-dark mb-2">
               Account Information
             </Text>
             <Text className="text-sm text-gray-500 font-manrope mb-4">
@@ -127,7 +127,7 @@ export function SettingsScreen({ navigation }: { navigation: any }) {
 
           {/* Personal Information Section */}
           <View className="mb-8">
-            <Text className="text-xl font-young-serif text-dark mb-4">
+            <Text className="text-xl font-manrope text-dark mb-4">
               Personal Information
             </Text>
 
@@ -163,7 +163,7 @@ export function SettingsScreen({ navigation }: { navigation: any }) {
 
           {/* Shipping Address Section */}
           <View className="mb-8">
-            <Text className="text-xl font-young-serif text-dark mb-2">
+            <Text className="text-xl font-manrope text-dark mb-2">
               Shipping Address
             </Text>
             <Text className="text-sm text-gray-500 font-manrope mb-4">
