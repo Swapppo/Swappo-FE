@@ -11,9 +11,12 @@ import NotificationsPopup from '../components/NotificationsPopup';
 import { catalogService } from '../services/catalog.service';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
+import { API_CONFIG } from '../config/api.config';
 import { dummy_items } from '../mockup/dummy_data';
 import { mapDummyItemToItemResponse } from '../mockup/item.mapper';
 import { User } from 'lucide-react';
+import { useFocusEffect } from '@react-navigation/native';
+
 type RootStackParamList = {
   Home: undefined;
   Swipe: undefined;
@@ -37,9 +40,11 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const [myItems, setMyItems] = useState<ItemResponse[]>([]);
   const [loadingItems, setLoadingItems] = useState(true);
 
-  useEffect(() => {
-    loadMyItems();
-  }, [user?.id]);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadMyItems();
+    }, [user?.id])
+  );
 
   const loadMyItems = async () => {
     if (!user?.id) return;
@@ -172,7 +177,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
                       source={{
                         uri: item.image_urls[0]?.startsWith('http')
                           ? item.image_urls[0]
-                          : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`,
+                          : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
                       }}
                       className="w-28 h-28 rounded-2xl bg-white border border-dark/5 shadow-sm"
                       resizeMode="cover"

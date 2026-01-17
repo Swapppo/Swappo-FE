@@ -15,6 +15,7 @@ import { TradeOfferResponse, TradeOfferStatus } from '../types/matchmaking.types
 import { ChatRoomResponse } from '../types/chat.types';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
+import { API_CONFIG } from '../config/api.config';
 
 interface MatchWithChat {
   offer: TradeOfferResponse;
@@ -155,11 +156,15 @@ export function MatchesScreen() {
               {offeredItems.map((item) => (
                 <View key={item.id} className="mr-2">
                   <Image
-                    source={{ uri: `${ENV.CATALOG_API_BASE_URL}${item.image_url}` }}
+                    source={{
+                      uri: item.image_urls[0]?.startsWith('http')
+                        ? item.image_urls[0]
+                        : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
+                    }}
                     className="w-16 h-16 rounded-lg"
                   />
                   <Text className="text-xs mt-1 text-center" numberOfLines={1}>
-                    {item.title && item.title.length > 10 ? item.title.substring(0, 10) + '...' : (item.title || 'Item')}
+                    {item.name}
                   </Text>
                 </View>
               ))}
@@ -178,11 +183,15 @@ export function MatchesScreen() {
               {requestedItems.map((item) => (
                 <View key={item.id} className="mr-2">
                   <Image
-                    source={{ uri: `${ENV.CATALOG_API_BASE_URL}${item.image_url}` }}
+                    source={{
+                      uri: item.image_urls[0]?.startsWith('http')
+                        ? item.image_urls[0]
+                        : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
+                    }}
                     className="w-16 h-16 rounded-lg"
                   />
                   <Text className="text-xs mt-1 text-center" numberOfLines={1}>
-                    {item.title && item.title.length > 10 ? item.title.substring(0, 10) + '...' : (item.title || 'Item')}
+                    {item.name}
                   </Text>
                 </View>
               ))}

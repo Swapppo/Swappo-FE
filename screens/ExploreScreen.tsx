@@ -28,58 +28,36 @@ import { ENV } from '../config/env.config';
 import { dummy_items } from '../mockup/dummy_data';
 import { mapDummyItemToItemResponse } from '../mockup/item.mapper';
 
+import { API_CONFIG } from '../config/api.config';
+
 export function ExploreScreen({ navigation }: { navigation: any }) {
   const { user } = useAuth();
 
   const [items, setItems] = useState<ItemResponse[]>([]);
-  const [myItems, setMyItems] = useState<ItemResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedItem, setSelectedItem] = useState<ItemResponse | null>(null);
-  const [showOfferModal, setShowOfferModal] = useState(false);
-  const [selectedOfferItems, setSelectedOfferItems] = useState<Set<number>>(new Set());
 
-
-  //!MOCKUP
-  const loadItems = useCallback(async () => {
-    setLoading(true);
-    
-    const mappedItems = dummy_items.map(mapDummyItemToItemResponse);
-    setItems(mappedItems);
-    setMyItems(mappedItems.filter(item => item.owner_id === 'alice'));
-    
-    setLoading(false);
-    setRefreshing(false);
-  }, []);
-  
-  //!PRAVILNO
-  /*
   const loadItems = useCallback(async () => {
     if (!user?.id) return;
 
     try {
-      setError(null);
+      // Fetch feed from API
       const feed = await catalogService.getFeed({
         user_id: user.id,
         limit: 50,
       });
 
       setItems(feed);
-      const userItems = await catalogService.getMyItems(user.id);
-      setMyItems(userItems);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load items';
-      setError(message);
-      Alert.alert('Error', message);
+      console.error(message);
+      // Fail silently or show toast, but don't block UI with alert on every load
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
   }, [user?.id]);
-  */
 
   useEffect(() => {
     loadItems();
@@ -103,34 +81,13 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
   }, [items, searchQuery]);
 
   const handleItemPress = (item: ItemResponse) => {
-    if (user?.id === item.owner_id) {
-      Alert.alert(item.name, 'You own this item');
-    } else {
-      setSelectedItem(item);
-      setSelectedOfferItems(new Set());
-      setShowOfferModal(true);
-    }
+    navigation.navigate('ItemInfo', { item });
   };
-
-  const toggleOfferItem = (itemId: number) => {
-    setSelectedOfferItems(prev => {
-      const next = new Set(prev);
-      next.has(itemId) ? next.delete(itemId) : next.add(itemId);
-      return next;
-    });
-  };
-
-  const handleCancelOffer = () => {
-    setShowOfferModal(false);
-    setSelectedItem(null);
-    setSelectedOfferItems(new Set());
-  };
-
 
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-cream">
-        <ActivityIndicator size="large" color="#2563eb" />
+        <ActivityIndicator size="large" color="#4B4DED" />
         <Text className="mt-4 text-gray-600 font-manrope">Loading items...</Text>
       </View>
     );
@@ -167,17 +124,21 @@ export function ExploreScreen({ navigation }: { navigation: any }) {
                     .map(item => (
                       <TouchableOpacity
                         key={item.id}
-                        className="flex-1 bg-white rounded-xl overflow-hidden"
+                        className="flex-1 bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
                         onPress={() => handleItemPress(item)}
                       >
                         <Image
-                          source={{ uri: item.image_urls[0] }}
+                          source={{
+                            uri: item.image_urls[0]?.startsWith('http')
+                              ? item.image_urls[0]
+                              : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
+                          }}
                           className="w-full"
                           style={{ aspectRatio: 1 }}
                         />
 
                         <View className="p-3">
-                          <Text className="font-manrope font-bold text-base" numberOfLines={1}>
+                          <Text className="font-manrope font-bold text-base text-dark" numberOfLines={1}>
                             {item.name}
                           </Text>
                           <Text className="text-xs text-gray-500 font-manrope">

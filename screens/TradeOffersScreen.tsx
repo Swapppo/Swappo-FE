@@ -14,6 +14,7 @@ import { shippingService } from '../services/easyship.service';
 import { TradeOfferResponse, TradeOfferStatus } from '../types/matchmaking.types';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
+import { API_CONFIG } from '../config/api.config';
 
 export function TradeOffersScreen() {
   const { user } = useAuth();
@@ -82,11 +83,10 @@ export function TradeOffersScreen() {
       offers.map(async (offer) => {
         try {
           // Estimate shipping cost via Cloud Function
-          // Using default values: US to US, 1kg package
-          // You can customize this based on actual user location and item weight
+          // Using user's country for destination
           const estimate = await shippingService.estimateShippingCost({
-            from_country: 'US',
-            to_country: 'US',
+            from_country: 'US', // TODO: Get from proposer's profile
+            to_country: user?.country || 'US',
             weight_kg: 1,
           });
 
@@ -201,7 +201,7 @@ export function TradeOffersScreen() {
                               source={{
                                 uri: item.image_urls[0]?.startsWith('http')
                                   ? item.image_urls[0]
-                                  : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
+                                  : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
                               }}
                               className="w-full h-full"
                               resizeMode="cover"
@@ -232,7 +232,7 @@ export function TradeOffersScreen() {
                               source={{
                                 uri: item.image_urls[0]?.startsWith('http')
                                   ? item.image_urls[0]
-                                  : `${ENV.API_BASE_URL}${item.image_urls[0]}`,
+                                  : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`,
                               }}
                               className="w-full h-full"
                               resizeMode="cover"
