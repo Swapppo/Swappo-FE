@@ -41,34 +41,17 @@ export const HomeScreen = ({ navigation }: HomeScreenProps) => {
     loadMyItems();
   }, [user?.id]);
 
-  //!PRAVILNO
-  // const loadMyItems = async () => {
-  //   if (!user?.id) return;
-  //   try {
-  //     const items = await catalogService.getMyItems(user.id);
-  //     setMyItems(items.slice(0, 4));
-  //   } catch (error) {
-  //     console.error('Failed to load items:', error);
-  //   } finally {
-  //     setLoadingItems(false);
-  //   }
-  //  };
-
-  //!USE OF DUMMY_DATA 
-  //TODO: REMOVE WHEN WORKING
   const loadMyItems = async () => {
-    setLoadingItems(true);
+    if (!user?.id) return;
     try {
-      const items = dummy_items.map(mapDummyItemToItemResponse);
+      const items = await catalogService.getMyItems(user.id);
       setMyItems(items.slice(0, 4));
-    }
-    catch (error) {
-      console.error('Failed to load dummy items: ', error);
-    }
-    finally {
+    } catch (error) {
+      console.error('Failed to load items:', error);
+    } finally {
       setLoadingItems(false);
     }
-  }
+   };
 
 
   const handleLogout = async () => {

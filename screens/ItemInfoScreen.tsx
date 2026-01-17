@@ -6,12 +6,17 @@ import {
     ScrollView,
     TouchableOpacity,
     Dimensions,
+    Alert,
+    ActivityIndicator,
+    Platform,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ItemResponse } from '../types/catalog.types';
-import { ENV } from '../config/env.config';
+import { API_CONFIG } from '../config/api.config';
 import NotificationBadge from '../components/NotificationBadge';
 import NotificationsPopup from '@/components/NotificationsPopup';
+import { useAuth } from '../hooks/useAuth';
+import { catalogService } from '../services/catalog.service';
 
 type RootStackParamList = {
     ItemInfo: { item: ItemResponse };
@@ -23,14 +28,78 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const ItemInfoScreen = ({ route, navigation }: Props) => {
     const { item } = route.params;
+    const { user } = useAuth();
     const [showNotifications, setShowNotifications] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    
     const imageUrl = item.image_urls[0]
         ? item.image_urls[0].startsWith('http')
             ? item.image_urls[0]
-            : `${ENV.CATALOG_API_BASE_URL}${item.image_urls[0]}`
+            : `${API_CONFIG.CATALOG_BASE_URL}${item.image_urls[0]}`
         : 'https://via.placeholder.com/400x300?text=No+Image';
 
     const IMAGE_HEIGHT = SCREEN_HEIGHT * 0.40;
+
+    const isOwner = user?.id === item.owner_id;
+    console.log('ItemInfo Check:', { 
+        userId: user?.id, 
+        itemOwnerId: item.owner_id, 
+        isOwner,
+        itemId: item.id
+    });
+
+    const handleDelete = async () => {
+        console.log('Delete button pressed');
+        if (!user?.id) {
+            console.log('No user ID found');
+            return;
+        }
+
+        if (Platform.OS === 'web') {
+            const confirmed = window.confirm("Are you sure you want to delete this item? This action cannot be undone.");
+            if (confirmed) {
+                try {
+                    setIsDeleting(true);
+                    await catalogService.deleteItem(item.id, user.id);
+                    // On web, we might want to use window.alert or a toast, but this is fine
+                    alert("Item deleted successfully"); 
+                    navigation.goBack();
+                } catch (error) {
+                    console.error("Delete error:", error);
+                    alert("Failed to delete item");
+                } finally {
+                    setIsDeleting(false);
+                }
+            }
+        } else {
+            Alert.alert(
+                "Delete Item",
+                "Are you sure you want to delete this item? This action cannot be undone.",
+                [
+                    { text: "Cancel", style: "cancel" },
+                    { 
+                        text: "Delete", 
+                        style: "destructive",
+                        onPress: async () => {
+                            try {
+                                setIsDeleting(true);
+                                await catalogService.deleteItem(item.id, user.id);
+                                Alert.alert("Success", "Item deleted successfully");
+                                navigation.goBack();
+                            } catch (error) {
+                                console.error("Delete error:", error);
+                                Alert.alert("Error", "Failed to delete item");
+                            } finally {
+                                setIsDeleting(false);
+                            }
+                        }
+                    }
+                ]
+            );
+        }
+    };
+
+
 
     return (
         <ScrollView
@@ -42,25 +111,25 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
             }}
         >
             {/* Header */}
-            <View className="flex-row justify-between items-center bg-cream">
-                <Text className="text-2xl font-manrope font-bold tracking-tight text-dark">
-                    Item info
+            <View className="flex-row justify-between items-center bg-cream mb-6">
+                <TouchableOpacity onPress={() => navigation.goBack()} className="p-2">
+                    <Text className="text-dark font-manrope font-bold text-lg">Back</Text>
+                </TouchableOpacity>
+                <Text className="text-xl font-manrope font-bold tracking-tight text-dark">
+                    Item Info
                 </Text>
-                <NotificationsPopup
-                    visible={showNotifications}
-                    onClose={() => setShowNotifications(false)}
-                />
-                <NotificationBadge onPress={() => setShowNotifications(true)} />
+                <View className="flex-row items-center gap-2">
+                    <NotificationsPopup
+                        visible={showNotifications}
+                        onClose={() => setShowNotifications(false)}
+                    />
+                    <NotificationBadge onPress={() => setShowNotifications(true)} />
+                </View>
             </View>
-
-            {/* Edit Listing Label */}
-            <Text className="text-xs text-gray-400 mb-2 tracking-widest font-manrope">
-                EDIT LISTING
-            </Text>
 
             {/* Title */}
             <Text className="font-manrope text-2xl text-[#1B1A17] font-bold mb-6">
-                What are you trading?
+                {item.name}
             </Text>
 
             {/* Image with edit icon */}
@@ -73,25 +142,38 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
                     style={{ width: '100%', height: '100%' }}
                     resizeMode="cover"
                 />
-                {/* <TouchableOpacity
-                    className="absolute bottom-4 right-4 bg-white rounded-full p-2 shadow"
-                    onPress={() => alert('Edit Image pressed')}
-                /> */}
             </View>
 
-            {/* TITLE Label */}
+            {/* CATEGORY Label */}
             <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide font-manrope">
-                TITLE
+                CATEGORY
             </Text>
-            <Text className="text-lg text-[#1B1A17] font-manrope mb-6">{item.name}</Text>
+            <Text className="text-lg text-[#1B1A17] font-manrope mb-6">{item.category}</Text>
 
             {/* DESCRIPTION Label */}
             <Text className="text-xs text-gray-400 mb-1 uppercase font-semibold tracking-wide font-manrope">
                 DESCRIPTION
             </Text>
-            <Text className="text-base text-[#1B1A17] font-manrope leading-relaxed">
+            <Text className="text-base text-[#1B1A17] font-manrope leading-relaxed mb-8">
                 {item.description || 'No description provided.'}
             </Text>
+
+            {/* Delete Button for Owner */}
+            {isOwner && (
+                <TouchableOpacity
+                    onPress={handleDelete}
+                    disabled={isDeleting}
+                    className="bg-red-500 py-4 rounded-xl items-center justify-center shadow-sm mt-4"
+                >
+                    {isDeleting ? (
+                        <ActivityIndicator color="white" />
+                    ) : (
+                        <Text className="text-white font-manrope font-bold text-base">
+                            Delete Item
+                        </Text>
+                    )}
+                </TouchableOpacity>
+            )}
 
         </ScrollView>
     );

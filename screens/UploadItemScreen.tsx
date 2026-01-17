@@ -93,8 +93,10 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
         
         try {
           const imageUrl = await catalogService.uploadImage(uri, fileName);
-          // Convert relative URL to absolute URL
-          const absoluteUrl = `${API_CONFIG.CATALOG_BASE_URL}${imageUrl}`;
+          // Convert relative URL to absolute URL if needed
+          const absoluteUrl = imageUrl.startsWith('http') 
+            ? imageUrl 
+            : `${API_CONFIG.CATALOG_BASE_URL}${imageUrl}`;
           uploadedImageUrls.push(absoluteUrl);
         } catch (err) {
           console.error('Failed to upload image:', err);
