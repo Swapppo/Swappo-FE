@@ -116,6 +116,20 @@ class AuthService {
   }
 
   /**
+   * Get user by ID
+   */
+  async getUserById(userId: string): Promise<UserResponse> {
+    try {
+      const response = await apiClient.get<UserResponse>(
+        `/auth/api/v1/auth/users/${userId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
    * Update user profile
    */
   async updateProfile(profile: UserProfile): Promise<UserResponse> {

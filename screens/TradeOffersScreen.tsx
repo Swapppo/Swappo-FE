@@ -11,6 +11,7 @@ import { useAuth } from '../hooks/useAuth';
 import { matchmakingService } from '../services/matchmaking.service';
 import { catalogService } from '../services/catalog.service';
 import { shippingService } from '../services/easyship.service';
+import { authService } from '../services/auth.service';
 import { TradeOfferResponse, TradeOfferStatus } from '../types/matchmaking.types';
 import { ItemResponse } from '../types/catalog.types';
 import { ENV } from '../config/env.config';
@@ -82,17 +83,27 @@ export function TradeOffersScreen() {
     await Promise.all(
       offers.map(async (offer) => {
         try {
+          // Fetch proposer's profile to get their country
+          let proposerCountry = 'US'; // Default fallback
+          try {
+            const proposerProfile = await authService.getUserById(offer.proposer_id);
+            proposerCountry = proposerProfile.country || 'US';
+            console.log(`📍 Proposer (${offer.proposer_id}) country: ${proposerCountry}`);
+          } catch (error) {
+            console.warn(`⚠️ Could not fetch proposer profile, using default country:`, error);
+          }
+
           // Estimate shipping cost via Cloud Function
-          // Using user's country for destination
+          // Using proposer's country as origin and current user's country as destination
           const estimate = await shippingService.estimateShippingCost({
-            from_country: 'US', // TODO: Get from proposer's profile
+            from_country: proposerCountry,
             to_country: user?.country || 'US',
             weight_kg: 1,
           });
 
           if (estimate) {
             costs.set(offer.id, estimate);
-            console.log(`✅ Shipping estimate for offer ${offer.id}: $${estimate.cost} via ${estimate.courier}`);
+            console.log(`✅ Shipping estimate for offer ${offer.id}: $${estimate.cost} via ${estimate.courier} (${proposerCountry} → ${user?.country || 'US'})`);
           }
         } catch (error) {
           console.error(`❌ Failed to get shipping estimate for offer ${offer.id}:`, error);
