@@ -22,14 +22,23 @@ import { catalogService } from '../services/catalog.service';
 import { API_CONFIG } from '../config/api.config';
 import { ScreenHeader } from '../components/ScreenHeader';
 
-export function UploadItemScreen({ navigation }: { navigation: any }) {
+export function UploadItemScreen({ navigation, route }: { navigation: any, route: any }) {
   const { user } = useAuth();
+  const editingItem = route.params?.item;
+  const isEditing = !!editingItem;
+
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: '',
+    name: editingItem?.name || '',
+    description: editingItem?.description || '',
+    category: editingItem?.category || '',
   });
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  
+  // Format existing images to full URLs if needed
+  const initialImages = editingItem?.image_urls?.map((url: string) => 
+    url.startsWith('http') ? url : `${API_CONFIG.CATALOG_BASE_URL}${url}`
+  ) || [];
+
+  const [selectedImages, setSelectedImages] = useState<string[]>(initialImages);
   const [uploading, setUploading] = useState(false);
 
   const pickImage = async () => {
@@ -85,45 +94,71 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
     try {
       setUploading(true);
 
-      // Upload all images first
-      const uploadedImageUrls: string[] = [];
+      // Upload new images and identify existing ones
+      const finalImageUrls: string[] = [];
+      
       for (let i = 0; i < selectedImages.length; i++) {
         const uri = selectedImages[i];
-        const fileName = `item_${Date.now()}_${i}.jpg`;
         
-        try {
-          const imageUrl = await catalogService.uploadImage(uri, fileName);
-          // Convert relative URL to absolute URL if needed
-          const absoluteUrl = imageUrl.startsWith('http') 
-            ? imageUrl 
-            : `${API_CONFIG.CATALOG_BASE_URL}${imageUrl}`;
-          uploadedImageUrls.push(absoluteUrl);
-        } catch (err) {
-          console.error('Failed to upload image:', err);
-          throw new Error(`Failed to upload image ${i + 1}`);
+        // Check if it's already a remote URL
+        if (uri.startsWith('http')) {
+           // It's an existing image, just use it (stripping base URL if needed by backend, 
+           // but backend usually stores relative path. 
+           // Let's assume createItem/updateItem handles absolute URLs or we strip it)
+           
+           // Actually, the backend stores what we send. 
+           // If we send absolute, it stores absolute. If we send relative, relative.
+           // To be inconsistent usage, let's keep it simple: 
+           // If it's already an absolute URL from our bucket, we can try to make it relative or just keep it.
+           // However, `uploadImage` returns a relative path (usually).
+           // Let's just pass the URL as is.
+           finalImageUrls.push(uri);
+        } else {
+          // It's a local file, upload it
+          const fileName = `item_${Date.now()}_${i}.jpg`;
+          try {
+            const imageUrl = await catalogService.uploadImage(uri, fileName);
+            // Convert relative URL to absolute URL for frontend consistency if needed, 
+            // but for `createItem`, we send the URL returned by uploadImage. 
+            // Wait, `createItem` implementation in `UploadItemScreen` before wrapped it with absolute URL.
+            // Let's stick to what worked:
+            const absoluteUrl = imageUrl.startsWith('http') 
+              ? imageUrl 
+              : `${API_CONFIG.CATALOG_BASE_URL}${imageUrl}`;
+            finalImageUrls.push(absoluteUrl);
+          } catch (err) {
+            console.error('Failed to upload image:', err);
+            throw new Error(`Failed to upload image ${i + 1}`);
+          }
         }
       }
 
-      // Create the item with uploaded image URLs
-      await catalogService.createItem({
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-        category: formData.category.trim(),
-        image_urls: uploadedImageUrls,
-        location_lat: 0, // Default location - can add geolocation later
-        location_lon: 0,
-        owner_id: user.id,
-      });
+      if (isEditing) {
+        // Update existing item
+        await catalogService.updateItem(editingItem.id, user.id, {
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+          category: formData.category.trim(),
+          image_urls: finalImageUrls,
+        });
+        Alert.alert('Success', 'Item updated successfully!');
+      } else {
+        // Create new item
+        await catalogService.createItem({
+          name: formData.name.trim(),
+          description: formData.description.trim(),
+          category: formData.category.trim(),
+          image_urls: finalImageUrls,
+          location_lat: 0, 
+          location_lon: 0,
+          owner_id: user.id,
+        });
+        Alert.alert('Success', 'Item uploaded successfully!');
+      }
 
-      // Reset form
-      setFormData({ name: '', description: '', category: '' });
-      setSelectedImages([]);
-      
-      // Show success message and navigate back
-      Alert.alert('Success', 'Item uploaded successfully!');
       navigation.goBack();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to upload item';
+      const message = err instanceof Error ? err.message : `Failed to ${isEditing ? 'update' : 'upload'} item`;
       Alert.alert('Error', message);
     } finally {
       setUploading(false);
@@ -135,7 +170,7 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       className="flex-1 bg-cream"
     >
-      <ScreenHeader title="Upload New Item" showBack={true} />
+      <ScreenHeader title={isEditing ? "Edit Item" : "Upload New Item"} showBack={true} />
       <ScrollView className="flex-1">
         <View className="p-6">
 
@@ -231,11 +266,13 @@ export function UploadItemScreen({ navigation }: { navigation: any }) {
             {uploading ? (
               <View className="flex-row items-center justify-center">
                 <ActivityIndicator color="white" />
-                <Text className="text-white font-manrope font-semibold ml-2">Uploading...</Text>
+                <Text className="text-white font-manrope font-semibold ml-2">
+                  {isEditing ? 'Updating...' : 'Uploading...'}
+                </Text>
               </View>
             ) : (
               <Text className="text-white text-center font-manrope font-semibold text-base">
-                Upload Item
+                {isEditing ? 'Update Item' : 'Upload Item'}
               </Text>
             )}
           </TouchableOpacity>

@@ -158,21 +158,32 @@ export const ItemInfoScreen = ({ route, navigation }: Props) => {
                 {item.description || 'No description provided.'}
             </Text>
 
-            {/* Delete Button for Owner */}
+            {/* Owner Actions */}
             {isOwner && (
-                <TouchableOpacity
-                    onPress={handleDelete}
-                    disabled={isDeleting}
-                    className="bg-red-500 py-4 rounded-xl items-center justify-center shadow-sm mt-4"
-                >
-                    {isDeleting ? (
-                        <ActivityIndicator color="white" />
-                    ) : (
+                <View className="mt-4 gap-3">
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('UploadItem', { item })}
+                        className="bg-blue-600 py-4 rounded-xl items-center justify-center shadow-sm"
+                    >
                         <Text className="text-white font-manrope font-bold text-base">
-                            Delete Item
+                            Edit Item
                         </Text>
-                    )}
-                </TouchableOpacity>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={handleDelete}
+                        disabled={isDeleting}
+                        className="bg-red-500 py-4 rounded-xl items-center justify-center shadow-sm"
+                    >
+                        {isDeleting ? (
+                            <ActivityIndicator color="white" />
+                        ) : (
+                            <Text className="text-white font-manrope font-bold text-base">
+                                Delete Item
+                            </Text>
+                        )}
+                    </TouchableOpacity>
+                </View>
             )}
 
         </ScrollView>
